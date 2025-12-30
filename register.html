@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lvl∞nity | Create Character</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles/register.css">
+    </head>
+
+    <body>
+        <div class="card-container">
+            <div class="card-title">
+                <h1>CHARACTER CREATION</h1>
+                <p>Start Your Level Up Journey!</p>
+            </div>
+
+            <div class="character-card">
+                <div class="rarity-badge">★ ROOKIE ★</div>
+
+                <div class="avatar-section">
+                    <div class="avatar-box">
+                        <div class="avatar-placeholder">?</div>
+                    </div>
+                    <div class="avatar-label">Your Avatar Here</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">⚡ Username</label>
+                    <input type="text" class="form-input" placeholder="Enter name..." maxlength="20">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📧 Email</label>
+                    <input type="email" class="form-input" placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🔒 Password</label>
+                    <input type="password" class="form-input" placeholder="••••••••">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🎯 Select Class</label>
+                    <div class="class-grid">
+                        <div class="class-option" onclick="selectClass(this, 'developer')">
+                            💻 DEVELOPER
+                        </div>
+                        <div class="class-option" onclick="selectClass(this, 'designer')">
+                            🎨 DESIGNER
+                        </div>
+                        <div class="class-option" onclick="selectClass(this, 'writer')">
+                            ✍ WRITER
+                        </div>
+                        <div class="class-option" onclick="selectClass(this, 'creator')">
+                            🌟 CREATOR
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <div class="stats-title">⚔ STARTING STATS ⚔</div>
+                    <div class="stat-row">
+                        <span class="stat-label">LVL</span>
+                        <span class="stat-value">001</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">XP</span>
+                        <span class="stat-value">000 / 100</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">QUESTS</span>
+                        <span class="stat-value">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">STREAK</span>
+                        <span class="stat-value">0 DAYS</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="pixel-btn btn-secondary" onclick="window.location.href='index.html'">
+                        Cancel
+                    </button>
+                    <button class="pixel-btn btn-primary" onclick="createCharacter()">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let selectedClass = null;
+
+            function selectClass(element, className) {
+                // Remove selected from all
+                document.querySelectorAll('.class-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected to clicked
+                element.classList.add('selected');
+                selectedClass = className;
+            }
+
+            function createCharacter() {
+                const username = document.querySelector('input[type="text"]').value;
+                const email = document.querySelector('input[type="email"]').value;
+                const password = document.querySelector('input[type="password"]').value;
+
+                if (!username || !email || !password) {
+                    alert('Please fill in all fields!');
+                    return;
+                }
+
+                if (!selectedClass) {
+                    alert('Please select a class!');
+                    return;
+                }
+
+                alert(`Character Created!\n\nName: ${username}\nClass: ${selectedClass.toUpperCase()}\n\nWelcome to Lvl∞nity!`);
+                
+                // Redirect to main page or dashboard
+                // window.location.href = 'index.html';
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,354 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+body {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  background-color: #2d3748;
+  color: #00ff41;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* CRT scanline effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+/* Pixel grid background */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+      0deg,
+      #1a202c 0px,
+      #1a202c 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #1a202c 0px,
+      #1a202c 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  background-size: 8px 8px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-container {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+  width: 100%;
+}
+
+.card-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.card-title h1 {
+  font-size: 1.5rem;
+  color: #ffd700;
+  text-shadow: 3px 3px 0px #000;
+  margin-bottom: 10px;
+}
+
+.card-title p {
+  font-size: 0.6rem;
+  color: #00f0ff;
+}
+
+/* Character Card */
+.character-card {
+  background: linear-gradient(135deg, #1a202c 0%, #0f1419 100%);
+  border: 6px solid #ffd700;
+  box-shadow: 0 0 0 2px #000, 8px 8px 0px #000, 0 0 30px rgba(255, 215, 0, 0.3);
+  padding: 30px;
+  position: relative;
+}
+
+/* Card corner decorations */
+.character-card::before,
+.character-card::after {
+  content: "■";
+  position: absolute;
+  font-size: 1rem;
+  color: #ff006e;
+  animation: blink 1s step-end infinite;
+}
+
+.character-card::before {
+  top: 12px;
+  left: 12px;
+}
+
+.character-card::after {
+  bottom: 12px;
+  right: 12px;
+}
+
+/* Avatar placeholder */
+.avatar-section {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 3px dashed #00f0ff;
+}
+
+.avatar-box {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 15px;
+  background: #2d3748;
+  border: 4px solid #00f0ff;
+  box-shadow: 4px 4px 0px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-placeholder {
+  font-size: 3rem;
+  color: #00ff41;
+  animation: blink 2s step-end infinite;
+}
+
+.avatar-label {
+  font-size: 0.55rem;
+  color: #00ff41;
+  text-transform: uppercase;
+}
+
+/* Form fields */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.6rem;
+  color: #ffd700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.65rem;
+  background: #2d3748;
+  border: 3px solid #00f0ff;
+  color: #00ff41;
+  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.5);
+  transition: none;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #00ff41;
+  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.5), 0 0 0 3px #00ff41;
+}
+
+.form-input::placeholder {
+  color: #4a5568;
+}
+
+/* Stats section */
+.stats-section {
+  margin: 25px 0;
+  padding: 20px;
+  background: rgba(0, 240, 255, 0.05);
+  border: 3px solid #00f0ff;
+  box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+.stats-title {
+  font-size: 0.7rem;
+  color: #ff006e;
+  margin-bottom: 15px;
+  text-align: center;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.55rem;
+}
+
+.stat-label {
+  color: #00f0ff;
+}
+
+.stat-value {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+/* Class selection */
+.class-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.class-option {
+  padding: 12px;
+  background: #2d3748;
+  border: 3px solid #4a5568;
+  text-align: center;
+  font-size: 0.55rem;
+  color: #00ff41;
+  cursor: pointer;
+  transition: none;
+}
+
+.class-option:hover {
+  border-color: #00f0ff;
+  background: #1a202c;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.class-option.selected {
+  border-color: #ffd700;
+  background: #1a202c;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5),
+    inset 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+/* Action buttons */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.pixel-btn {
+  flex: 1;
+  padding: 16px;
+  font-size: 0.65rem;
+  font-weight: bold;
+  font-family: "Press Start 2P", monospace;
+  text-decoration: none;
+  text-align: center;
+  color: #000;
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0px #000;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: none;
+}
+
+.pixel-btn:hover {
+  box-shadow: 4px 4px 0px #000;
+  transform: translate(2px, 2px);
+}
+
+.pixel-btn:active {
+  box-shadow: 2px 2px 0px #000;
+  transform: translate(4px, 4px);
+}
+
+.btn-primary {
+  background-color: #00ff41;
+}
+
+.btn-secondary {
+  background-color: #4a5568;
+  color: #fff;
+}
+
+/* Card rarity indicator */
+.rarity-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #ff006e;
+  color: #000;
+  padding: 6px 12px;
+  font-size: 0.5rem;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px #000;
+  text-transform: uppercase;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-title h1 {
+    font-size: 1.2rem;
+  }
+
+  .character-card {
+    padding: 20px;
+  }
+
+  .class-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

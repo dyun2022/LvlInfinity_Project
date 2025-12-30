@@ -142,11 +142,13 @@ body::after {
   position: relative;
   z-index: 2;
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 .pixel-btn:hover {
   box-shadow: 4px 4px 0px #000, inset -2px -2px 0 rgba(0, 0, 0, 0.25);
   transform: translate(2px, 2px);
+  text-decoration: none;
 }
 
 .pixel-btn:active {

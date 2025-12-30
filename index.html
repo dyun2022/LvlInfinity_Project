@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lvl&infin;nity | Main Page</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link href="lib/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
+        <link rel="stylesheet" href="styles/index.css">
+    </head>
+
+    <body>
+        <div id="header">
+            <h1 class="logo">
+                <span class="logo-text">Lvl</span>
+                <span class="infinity">&infin;</span>
+                <span class="logo-text">ity</span>
+            </h1>
+
+            <!-- <h1>Lvl<span class="infinity">&infin;</span>nity</h1> -->
+
+            <div class="projects_button">
+                <a href="login.html" class="pixel-btn" style="background-color: #00ffc6;">ENTER WORLD</a>
+                <a href="register.html" class="pixel-btn" style="background-color: #d863ff;;">CREATE CHARACTER</a>
+            </div>
+        </div>
+
+        <button class="pixel-arrow" aria-label="Scroll down">
+                <span class="arrow"></span>
+        </button>
+
+        <section class="carousel-section" id="features">
+            <button class="carousel-btn left" onclick="scrollCarousel(-1)">◀</button>
+
+            <div class="carousel">
+                <div class="carousel-track">
+                <div class="feature-card">
+                    <h3>QUESTS</h3>
+                    <p>Post projects and progress as quests.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>SAVE FILES</h3>
+                    <p>Log daily work and proof-of-progress.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>PARTY SYSTEM</h3>
+                    <p>Follow devs with similar interests.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>ACHIEVEMENTS</h3>
+                    <p>Track milestones and streaks.</p>
+                </div>
+                </div>
+            </div>
+
+            <button class="carousel-btn right" onclick="scrollCarousel(1)">▶</button>
+
+        </section>
+
+        <script>
+            // CARD CAROUSEL FUNCTION
+            let index = 0;
+            function scrollCarousel(direction) {
+                const track = document.querySelector(".carousel-track");
+                const cards = document.querySelectorAll(".feature-card");
+
+                index += direction;
+
+                // Clamp index
+                index = Math.max(0, Math.min(index, cards.length - 1));
+
+                const offset = index * (cards[0].offsetWidth + 24);
+                track.style.transform = `translateX(-${offset}px)`;
+            }
+        </script>
+
+    </body>
+</html>

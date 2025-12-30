@@ -1,0 +1,319 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+body {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  background-color: #2d3748;
+  color: #00ff41;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* CRT scanline effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+/* Pixel grid background */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+      0deg,
+      #1a202c 0px,
+      #1a202c 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #1a202c 0px,
+      #1a202c 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  background-size: 8px 8px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#header {
+  text-align: center;
+  padding: 60px 20px 40px;
+  position: relative;
+  z-index: 2;
+  background: #1a202c;
+  border-bottom: 4px solid #00ff41;
+  box-shadow: 0 4px 0 #00f0ff;
+}
+
+.logo {
+  font-size: 2.5rem;
+  color: #00f0ff;
+  text-shadow: 3px 3px 0px #ff006e, 6px 6px 0px #1a202c;
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+  animation: blink 2s step-end infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.logo-text {
+  display: inline-block;
+}
+
+.logo .infinity {
+  font-size: 10.5rem;
+  line-height: 1;
+  display: inline-block;
+  align-items: center;
+  margin: 0 -4px;
+  transform: translateY(-0.2em);
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.8;
+  }
+}
+
+.projects_button {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.pixel-btn {
+  padding: 20px 30px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  font-family: "Press Start 2P", monospace;
+  text-decoration: none;
+  color: #000;
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0px #000, inset -3px -3px 0 rgba(0, 0, 0, 0.2);
+  transition: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  text-transform: uppercase;
+}
+
+.pixel-btn:hover {
+  box-shadow: 4px 4px 0px #000, inset -2px -2px 0 rgba(0, 0, 0, 0.25);
+  transform: translate(2px, 2px);
+}
+
+.pixel-btn:active {
+  box-shadow: 2px 2px 0px #000, inset 3px 3px 0 rgba(0, 0, 0, 0.35);
+  transform: translate(4px, 4px);
+}
+
+.pixel-arrow {
+  display: block;
+  margin: 50px auto 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  animation: pixelBounce 1.5s step-end infinite;
+}
+
+@keyframes pixelBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.pixel-arrow .arrow {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 16px solid #ffd700;
+  filter: drop-shadow(2px 2px 0px #000);
+}
+
+.carousel-section {
+  padding: 40px 20px 60px;
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+#features {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.carousel {
+  overflow: hidden;
+  flex: 1;
+  padding: 20px 0;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.2s steps(10);
+}
+
+.feature-card {
+  min-width: 300px;
+  background: #1a202c;
+  border: 4px solid #00f0ff;
+  padding: 24px;
+  box-shadow: 6px 6px 0px #00ff41;
+  position: relative;
+  transition: transform 0.1s step-end;
+}
+
+.feature-card::before {
+  content: "■";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.8rem;
+  color: #ff006e;
+  animation: blink 1s step-end infinite;
+}
+
+.feature-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #00ff41;
+}
+
+.feature-card h3 {
+  font-size: 1rem;
+  color: #ffd700;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 0px #000;
+  letter-spacing: 2px;
+}
+
+.feature-card p {
+  color: #00ff41;
+  line-height: 1.8;
+  font-size: 0.65rem;
+}
+
+.carousel-btn {
+  background: #1a202c;
+  border: 4px solid #00f0ff;
+  color: #00f0ff;
+  width: 56px;
+  height: 56px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #000;
+  transition: none;
+  flex-shrink: 0;
+  font-family: "Press Start 2P", monospace;
+}
+
+.carousel-btn:hover {
+  background: #00f0ff;
+  color: #000;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.carousel-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #000;
+}
+
+/* Add retro corners */
+.feature-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  #header h1 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .pixel-btn {
+    padding: 16px 20px;
+    font-size: 0.6rem;
+  }
+
+  .feature-card {
+    min-width: 250px;
+  }
+
+  .feature-card h3 {
+    font-size: 0.85rem;
+  }
+
+  .feature-card p {
+    font-size: 0.55rem;
+  }
+
+  .carousel-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1rem;
+  }
+}

@@ -9,79 +9,188 @@
 
     <body>
         <div class="card-container">
-            <div class="card-title">
-                <h1>CHARACTER CREATION</h1>
-                <p>Start Your Level Up Journey!</p>
-            </div>
-
             <div class="character-card">
-                <div class="rarity-badge">★ ROOKIE ★</div>
+                <!-- Corner notches -->
+                <div class="corner-notch top-left"></div>
+                <div class="corner-notch top-right"></div>
+                <div class="corner-notch bottom-left"></div>
+                <div class="corner-notch bottom-right"></div>
 
-                <div class="avatar-section">
-                    <div class="avatar-box">
+                <!-- Card Header -->
+                <div class="card-header">
+                    <h1>New Character</h1>
+                    <div class="rarity-stars">★☆☆☆☆</div>
+                    <div class="level">ROOKIE</div>
+                </div>
+
+                <!-- Card Art (Avatar) -->
+                <div class="card-art">
+                    <div class="avatar-frame">
                         <div class="avatar-placeholder">?</div>
                     </div>
-                    <div class="avatar-label">Your Avatar Here</div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">⚡ Username</label>
-                    <input type="text" class="form-input" placeholder="Enter name..." maxlength="20">
-                </div>
+                <!-- Card Info -->
+                <div class="card-info">
+                    <!-- Name Plate -->
+                    <div class="name-section">
+                        <label class="name-label">▸ Character Name</label>
+                        <input type="text" class="name-input" placeholder="Enter Username" maxlength="20" id="username">
+                    </div>
+                    <div class="name-section">
+                        <label class="name-label">▸ First Name</label>
+                        <input type="text" class="name-input" placeholder="Enter First Name" maxlength="20" id="username">
+                    </div>
+                    <div class="name-section">
+                        <label class="name-label">▸ Last Name</label>
+                        <input type="text" class="name-input" placeholder="Enter Last Name" maxlength="20" id="username">
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">📧 Email</label>
-                    <input type="email" class="form-input" placeholder="your@email.com">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">🔒 Password</label>
-                    <input type="password" class="form-input" placeholder="••••••••">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">🎯 Select Class</label>
-                    <div class="class-grid">
-                        <div class="class-option" onclick="selectClass(this, 'developer')">
-                            💻 DEVELOPER
+                    <!-- Class Selection -->
+                    <div class="class-section">
+                        <div class="section-title">▸ Select Class ◂</div>
+                        <div class="class-grid">
+                            <div class="class-badge" onclick="selectClass(this, 'frontend')">
+                                FRONTEND
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'backend')">
+                                BACKEND
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'full-stack')">
+                                FULL-STACK
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'mobile-dev')">
+                                MOBILE-DEV
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'game-dev')">
+                                GAME-DEV
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'ai/ml')">
+                                AI/ML
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'systems')">
+                                SYSTEMS
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'data')">
+                                DATA
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'security')">
+                                SECURITY
+                            </div>
+                            <div class="class-badge" onclick="selectClass(this, 'student/explorer')">
+                                STUDENT/EXPLORER
+                            </div>
                         </div>
-                        <div class="class-option" onclick="selectClass(this, 'designer')">
-                            🎨 DESIGNER
+                    </div>
+
+                    <!-- Tech Stack Section -->
+                    <div class="tech-section">
+                        <div class="section-title">▸ Tech Arsenal ◂</div>
+                        
+                        <div class="tech-category">
+                            <div class="category-label">Languages</div>
+                            <div class="tech-tags" id="languages">
+                                <span class="tech-tag" onclick="toggleTech(this, 'JavaScript')">JavaScript</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Python')">Python</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Java')">Java</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'C++')">C++</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'TypeScript')">TypeScript</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Ruby')">Ruby</span>
+                            </div>
                         </div>
-                        <div class="class-option" onclick="selectClass(this, 'writer')">
-                            ✍ WRITER
+
+                        <div class="tech-category">
+                            <div class="category-label">Frameworks</div>
+                            <div class="tech-tags" id="frameworks">
+                                <span class="tech-tag" onclick="toggleTech(this, 'React')">React</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Vue')">Vue</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Angular')">Angular</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Next.js')">Next.js</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Django')">Django</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Flask')">Flask</span>
+                            </div>
                         </div>
-                        <div class="class-option" onclick="selectClass(this, 'creator')">
-                            🌟 CREATOR
+
+                        <div class="tech-category">
+                            <div class="category-label">Tools</div>
+                            <div class="tech-tags" id="tools">
+                                <span class="tech-tag" onclick="toggleTech(this, 'Git')">Git</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Docker')">Docker</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'VS Code')">VS Code</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Figma')">Firebase</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Postman')">Postman</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Webpack')">AWS</span>
+                            </div>
+                        </div>
+
+                        <div class="tech-category">
+                            <div class="category-label">Engines</div>
+                            <div class="tech-tags" id="engines">
+                                <span class="tech-tag" onclick="toggleTech(this, 'Unity')">Unity</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Unreal')">Unreal</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Godot')">Godot</span>
+                                <span class="tech-tag" onclick="toggleTech(this, 'Three.js')">Three.js</span>
+                            </div>
+                        </div>
+
+                        <!-- Custom tech input -->
+                        <div class="custom-tech">
+                            <input type="text" class="custom-tech-input" id="customTechInput" placeholder="Add custom tech...">
+                            <button class="add-tech-btn" onclick="addCustomTech()">+</button>
+                        </div>
+
+                        <!-- Selected tech display -->
+                        <div class="selected-tech-container" id="selectedTechContainer" style="display: none;">
+                            <div class="selected-label">Selected:</div>
+                            <div class="selected-tech" id="selectedTech"></div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Box -->
+                    <div class="stats-box">
+                        <div class="section-title">▸ Starting Stats ◂</div>
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">LEVEL</span>
+                                <span class="stat-value">001</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">QUESTS</span>
+                                <span class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">STREAK</span>
+                                <span class="stat-value">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credentials Toggle -->
+                    <div class="credentials-toggle">
+                        <button class="toggle-btn" onclick="toggleCredentials()">
+                            <span id="toggle-text">+ Set Credentials</span>
+                        </button>
+                    </div>
+
+                    <!-- Hidden form fields -->
+                    <div class="hidden-fields" id="credentials">
+                        <div class="form-group">
+                            <label class="form-label">📧 Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com" id="email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">🔒 Password</label>
+                            <input type="password" class="form-input" placeholder="••••••••" id="password">
                         </div>
                     </div>
                 </div>
 
-                <div class="stats-section">
-                    <div class="stats-title">⚔ STARTING STATS ⚔</div>
-                    <div class="stat-row">
-                        <span class="stat-label">LVL</span>
-                        <span class="stat-value">001</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">XP</span>
-                        <span class="stat-value">000 / 100</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">QUESTS</span>
-                        <span class="stat-value">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">STREAK</span>
-                        <span class="stat-value">0 DAYS</span>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button class="pixel-btn btn-secondary" onclick="window.location.href='index.html'">
+                <!-- Card Footer -->
+                <div class="card-footer">
+                    <button class="footer-btn btn-cancel" onclick="window.location.href='index.html'">
                         Cancel
                     </button>
-                    <button class="pixel-btn btn-primary" onclick="createCharacter()">
+                    <button class="footer-btn btn-create" onclick="createCharacter()">
                         Create
                     </button>
                 </div>
@@ -90,25 +199,89 @@
 
         <script>
             let selectedClass = null;
+            let credentialsVisible = false;
+            let selectedTechStack = [];
 
             function selectClass(element, className) {
-                // Remove selected from all
-                document.querySelectorAll('.class-option').forEach(opt => {
+                document.querySelectorAll('.class-badge').forEach(opt => {
                     opt.classList.remove('selected');
                 });
-                
-                // Add selected to clicked
                 element.classList.add('selected');
                 selectedClass = className;
             }
 
-            function createCharacter() {
-                const username = document.querySelector('input[type="text"]').value;
-                const email = document.querySelector('input[type="email"]').value;
-                const password = document.querySelector('input[type="password"]').value;
+            function toggleCredentials() {
+                const credentials = document.getElementById('credentials');
+                const toggleText = document.getElementById('toggle-text');
+                
+                credentialsVisible = !credentialsVisible;
+                
+                if (credentialsVisible) {
+                    credentials.style.display = 'block';
+                    toggleText.textContent = '- Hide Credentials';
+                } else {
+                    credentials.style.display = 'none';
+                    toggleText.textContent = '+ Set Credentials';
+                }
+            }
 
-                if (!username || !email || !password) {
-                    alert('Please fill in all fields!');
+            function toggleTech(element, techName) {
+                element.classList.toggle('selected');
+                
+                if (element.classList.contains('selected')) {
+                    selectedTechStack.push(techName);
+                } else {
+                    selectedTechStack = selectedTechStack.filter(tech => tech !== techName);
+                }
+                
+                updateSelectedTech();
+            }
+
+            function addCustomTech() {
+                const input = document.getElementById('customTechInput');
+                const techName = input.value.trim();
+                
+                if (techName && !selectedTechStack.includes(techName)) {
+                    selectedTechStack.push(techName);
+                    updateSelectedTech();
+                    input.value = '';
+                }
+            }
+
+            function removeSelectedTech(techName) {
+                selectedTechStack = selectedTechStack.filter(tech => tech !== techName);
+                
+                // Also unselect from the preset tags
+                document.querySelectorAll('.tech-tag').forEach(tag => {
+                    if (tag.textContent === techName) {
+                        tag.classList.remove('selected');
+                    }
+                });
+                
+                updateSelectedTech();
+            }
+
+            function updateSelectedTech() {
+                const container = document.getElementById('selectedTechContainer');
+                const selectedDiv = document.getElementById('selectedTech');
+                
+                if (selectedTechStack.length > 0) {
+                    container.style.display = 'block';
+                    selectedDiv.innerHTML = selectedTechStack.map(tech => 
+                        `<span class="selected-tech-tag">${tech} <span class="remove-tech" onclick="removeSelectedTech('${tech}')">×</span></span>`
+                    ).join('');
+                } else {
+                    container.style.display = 'none';
+                }
+            }
+
+            function createCharacter() {
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                if (!username) {
+                    alert('Please enter a character name!');
                     return;
                 }
 
@@ -117,11 +290,26 @@
                     return;
                 }
 
-                alert(`Character Created!\n\nName: ${username}\nClass: ${selectedClass.toUpperCase()}\n\nWelcome to Lvl∞nity!`);
-                
-                // Redirect to main page or dashboard
-                // window.location.href = 'index.html';
+                if (credentialsVisible && (!email || !password)) {
+                    alert('Please fill in email and password!');
+                    return;
+                }
+
+                let techStackText = selectedTechStack.length > 0 
+                    ? `\nTech Stack: ${selectedTechStack.join(', ')}`
+                    : '';
+
+                alert(`Character Card Created!\n\nName: ${username}\nClass: ${selectedClass.toUpperCase()}\nRank: ROOKIE${techStackText}\n\nWelcome to Lvl∞nity!`);
             }
+
+            // Allow Enter key to add custom tech
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('customTechInput').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addCustomTech();
+                    }
+                });
+            });
         </script>
     </body>
 </html>

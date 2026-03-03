@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lvl&infin;nity | Profile Page</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link href="lib/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
+        <link rel="stylesheet" href="../src/styles/profile.css" />
+    </head>
+
+
+    <body>
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="nav-content">
+                <div class="logo">Lvl∞nity</div>
+                <div class="nav-actions">
+                    <button class="nav-btn active">Feed</button>
+                    <button class="nav-btn">Explore</button>
+                    <button class="nav-btn">Profile</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feed Container -->
+        <div class="feed-container">
+            
+            <!-- Post 1: Progress Update -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-type-badge progress">⚡ Progress Update</div>
+                    <div class="post-time">2h ago</div>
+                </div>
+                
+                <div class="post-author">
+                    <div class="author-avatar">🎨</div>
+                    <div class="author-info">
+                        <div class="author-name">PixelMaster</div>
+                        <div class="author-level">LVL 12 • Designer</div>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <h3 class="post-title">Day 15: UI Animation System Complete!</h3>
+                    <p class="post-text">
+                        Finally cracked the animation system I've been working on. Built a reusable component library with Framer Motion that cuts development time by 60%. The micro-interactions are smooth as butter!
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">React</span>
+                        <span class="post-tag">Framer Motion</span>
+                        <span class="post-tag">UI/UX</span>
+                    </div>
+                </div>
+
+                <div class="post-stats-bar">
+                    <span>42 reactions</span>
+                    <span>8 comments</span>
+                </div>
+
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <span>❤️</span> Like
+                    </button>
+                    <button class="action-btn" onclick="toggleReactions(this)">
+                        <span>😊</span> React
+                        <div class="reactions-popup">
+                            <button class="reaction-btn">🔥</button>
+                            <button class="reaction-btn">💯</button>
+                            <button class="reaction-btn">🚀</button>
+                            <button class="reaction-btn">👏</button>
+                            <button class="reaction-btn">💡</button>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <span>💬</span> Comment
+                    </button>
+                    <button class="action-btn" onclick="toggleSave(this)">
+                        <span>🔖</span> Save
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <div class="comment-input-area">
+                        <input type="text" class="comment-input" placeholder="Add a comment...">
+                        <button class="comment-submit">Post</button>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-author">CodeNinja</div>
+                        <div class="comment-text">This is incredible! Would love to see a tutorial on this.</div>
+                        <div class="comment-time">1h ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 2: Level Up -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-type-badge level-up">⭐ Level Up!</div>
+                    <div class="post-time">5h ago</div>
+                </div>
+                
+                <div class="post-author">
+                    <div class="author-avatar">💻</div>
+                    <div class="author-info">
+                        <div class="author-name">CodeWarrior</div>
+                        <div class="author-level">LVL 20 • Developer</div>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <h3 class="post-title">LEVEL 20 ACHIEVED! 🎉</h3>
+                    <p class="post-text">
+                        Hit level 20 after completing my 50th quest! This journey from beginner to intermediate has been wild. Learned so much about system design, databases, and clean architecture. Ready for the next challenge!
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">Milestone</span>
+                        <span class="post-tag">Achievement</span>
+                    </div>
+                </div>
+
+                <div class="post-stats-bar">
+                    <span>127 reactions</span>
+                    <span>23 comments</span>
+                </div>
+
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <span>❤️</span> Like
+                    </button>
+                    <button class="action-btn" onclick="toggleReactions(this)">
+                        <span>😊</span> React
+                        <div class="reactions-popup">
+                            <button class="reaction-btn">🔥</button>
+                            <button class="reaction-btn">💯</button>
+                            <button class="reaction-btn">🚀</button>
+                            <button class="reaction-btn">👏</button>
+                            <button class="reaction-btn">💡</button>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <span>💬</span> Comment
+                    </button>
+                    <button class="action-btn" onclick="toggleSave(this)">
+                        <span>🔖</span> Save
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <div class="comment-input-area">
+                        <input type="text" class="comment-input" placeholder="Add a comment...">
+                        <button class="comment-submit">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 3: New Class Unlocked -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-type-badge new-class">🎯 New Class Unlocked</div>
+                    <div class="post-time">1d ago</div>
+                </div>
+                
+                <div class="post-author">
+                    <div class="author-avatar">✍️</div>
+                    <div class="author-info">
+                        <div class="author-name">StoryWeaver</div>
+                        <div class="author-level">LVL 8 • Writer</div>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <h3 class="post-title">Unlocked: Full-Stack Developer Class! 🚀</h3>
+                    <p class="post-text">
+                        Just completed my first end-to-end application! Started as a frontend specialist, but diving into backend development opened up a whole new world. Built with Node.js, Express, and MongoDB.
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">Full Stack</span>
+                        <span class="post-tag">Node.js</span>
+                        <span class="post-tag">MongoDB</span>
+                    </div>
+                </div>
+
+                <div class="post-stats-bar">
+                    <span>89 reactions</span>
+                    <span>15 comments</span>
+                </div>
+
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <span>❤️</span> Like
+                    </button>
+                    <button class="action-btn" onclick="toggleReactions(this)">
+                        <span>😊</span> React
+                        <div class="reactions-popup">
+                            <button class="reaction-btn">🔥</button>
+                            <button class="reaction-btn">💯</button>
+                            <button class="reaction-btn">🚀</button>
+                            <button class="reaction-btn">👏</button>
+                            <button class="reaction-btn">💡</button>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <span>💬</span> Comment
+                    </button>
+                    <button class="action-btn" onclick="toggleSave(this)">
+                        <span>🔖</span> Save
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <div class="comment-input-area">
+                        <input type="text" class="comment-input" placeholder="Add a comment...">
+                        <button class="comment-submit">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 4: Achievement -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-type-badge achievement">🏆 Achievement</div>
+                    <div class="post-time">2d ago</div>
+                </div>
+                
+                <div class="post-author">
+                    <div class="author-avatar">🎮</div>
+                    <div class="author-info">
+                        <div class="author-name">GameDevPro</div>
+                        <div class="author-level">LVL 15 • Creator</div>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <h3 class="post-title">100 Day Streak Unlocked! ⚡</h3>
+                    <p class="post-text">
+                        Officially hit 100 consecutive days of coding! Started as a New Year's resolution and turned into a life-changing habit. Consistency really is the secret sauce. Here's to the next 100!
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">Streak</span>
+                        <span class="post-tag">Motivation</span>
+                    </div>
+                </div>
+
+                <div class="post-stats-bar">
+                    <span>203 reactions</span>
+                    <span>34 comments</span>
+                </div>
+
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <span>❤️</span> Like
+                    </button>
+                    <button class="action-btn" onclick="toggleReactions(this)">
+                        <span>😊</span> React
+                        <div class="reactions-popup">
+                            <button class="reaction-btn">🔥</button>
+                            <button class="reaction-btn">💯</button>
+                            <button class="reaction-btn">🚀</button>
+                            <button class="reaction-btn">👏</button>
+                            <button class="reaction-btn">💡</button>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <span>💬</span> Comment
+                    </button>
+                    <button class="action-btn" onclick="toggleSave(this)">
+                        <span>🔖</span> Save
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <div class="comment-input-area">
+                        <input type="text" class="comment-input" placeholder="Add a comment...">
+                        <button class="comment-submit">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post 5: Milestone -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-type-badge milestone">💎 Milestone</div>
+                    <div class="post-time">3d ago</div>
+                </div>
+                
+                <div class="post-author">
+                    <div class="author-avatar">🌟</div>
+                    <div class="author-info">
+                        <div class="author-name">StartupHero</div>
+                        <div class="author-level">LVL 18 • Creator</div>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <h3 class="post-title">First 1000 Users! 🎊</h3>
+                    <p class="post-text">
+                        My side project just hit 1,000 active users! What started as a weekend experiment is now helping people daily. Learned so much about product-market fit, user feedback, and scaling. This is just the beginning!
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">Startup</span>
+                        <span class="post-tag">SaaS</span>
+                        <span class="post-tag">Growth</span>
+                    </div>
+                </div>
+
+                <div class="post-stats-bar">
+                    <span>156 reactions</span>
+                    <span>28 comments</span>
+                </div>
+
+                <div class="post-actions">
+                    <button class="action-btn" onclick="toggleLike(this)">
+                        <span>❤️</span> Like
+                    </button>
+                    <button class="action-btn" onclick="toggleReactions(this)">
+                        <span>😊</span> React
+                        <div class="reactions-popup">
+                            <button class="reaction-btn">🔥</button>
+                            <button class="reaction-btn">💯</button>
+                            <button class="reaction-btn">🚀</button>
+                            <button class="reaction-btn">👏</button>
+                            <button class="reaction-btn">💡</button>
+                        </div>
+                    </button>
+                    <button class="action-btn" onclick="toggleComments(this)">
+                        <span>💬</span> Comment
+                    </button>
+                    <button class="action-btn" onclick="toggleSave(this)">
+                        <span>🔖</span> Save
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <div class="comment-input-area">
+                        <input type="text" class="comment-input" placeholder="Add a comment...">
+                        <button class="comment-submit">Post</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            function toggleLike(btn) {
+                btn.classList.toggle('liked');
+            }
+
+            function toggleSave(btn) {
+                btn.classList.toggle('saved');
+            }
+
+            function toggleComments(btn) {
+                const postCard = btn.closest('.post-card');
+                const commentsSection = postCard.querySelector('.comments-section');
+                commentsSection.classList.toggle('active');
+            }
+
+            function toggleReactions(btn) {
+                const popup = btn.querySelector('.reactions-popup');
+                popup.classList.toggle('active');
+                
+                // Close when clicking outside
+                document.addEventListener('click', function closePopup(e) {
+                    if (!btn.contains(e.target)) {
+                        popup.classList.remove('active');
+                        document.removeEventListener('click', closePopup);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

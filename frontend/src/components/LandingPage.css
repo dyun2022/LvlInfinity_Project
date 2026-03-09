@@ -1,0 +1,442 @@
+/* ═══════════════════════════════════════════════════════════════════
+   LandingPage.css  –  Holographic futuristic landing
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap");
+
+/* ── Variables ─────────────────────────────────────────────────────── */
+:root {
+  --cyan:   #00f0ff;
+  --mint:   #00ffc6;
+  --violet: #d863ff;
+  --pink:   #ff006e;
+  --gold:   #ffd700;
+  --dark:   #0a0e17;
+  --glass:  rgba(10, 14, 23, 0.55);
+  --holo:   rgba(0, 240, 255, 0.12);
+}
+
+/* ── Landing wrapper ───────────────────────────────────────────────── */
+.landing {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+/* ── Scanline overlay ──────────────────────────────────────────────── */
+.holo-scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 240, 255, 0.03) 2px,
+    rgba(0, 240, 255, 0.03) 4px
+  );
+  animation: scanDrift 10s linear infinite;
+}
+
+@keyframes scanDrift {
+  to { background-position-y: 40px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   HOLOGRAM CONTAINER
+   ══════════════════════════════════════════════════════════════════════ */
+.holo-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+/* ── Base plate ────────────────────────────────────────────────────── */
+.holo-base {
+  position: absolute;
+  bottom: 0;
+  width: 360px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.holo-base-ring {
+  position: absolute;
+  width: 280px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 18px var(--cyan), inset 0 0 10px var(--cyan);
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+.holo-base-ring.ring2 {
+  width: 340px;
+  height: 18px;
+  opacity: 0.4;
+  animation-delay: 1.5s;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scaleX(1); opacity: 0.6; }
+  50%      { transform: scaleX(1.05); opacity: 1; }
+}
+
+/* ── Projection beam ──────────────────────────────────────────────── */
+.holo-beam {
+  position: absolute;
+  bottom: 10px;
+  width: 4px;
+  height: 0;
+  background: linear-gradient(to top, var(--cyan), transparent);
+  border-radius: 2px;
+  opacity: 0;
+  transition: height 1s ease, opacity 0.5s ease;
+  filter: blur(2px);
+  z-index: 0;
+}
+
+/* ── Projection content ───────────────────────────────────────────── */
+.holo-projection {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 48px 36px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.92);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+
+  /* Holographic glass panel */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 240, 255, 0.06) 0%,
+    rgba(216, 99, 255, 0.04) 50%,
+    rgba(0, 255, 198, 0.06) 100%
+  );
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 40px rgba(0, 240, 255, 0.08),
+    0 0 80px rgba(0, 240, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PHASE TRANSITIONS  (off → flicker → reveal → idle)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* — flicker phase — */
+.landing.flicker .holo-base  { opacity: 1; }
+.landing.flicker .holo-beam  { opacity: 0.7; height: 350px; }
+.landing.flicker .holo-projection {
+  animation: holoFlicker 0.15s steps(2) 8;
+}
+
+@keyframes holoFlicker {
+  0%   { opacity: 0; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+
+/* — reveal phase — */
+.landing.reveal .holo-base   { opacity: 1; }
+.landing.reveal .holo-beam   { opacity: 0.5; height: 350px; }
+.landing.reveal .holo-projection {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: holoReveal 1s ease forwards;
+}
+
+@keyframes holoReveal {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.95); filter: brightness(3) blur(4px); }
+  40%  { opacity: 1; filter: brightness(1.6) blur(1px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1) blur(0); }
+}
+
+/* — idle phase — */
+.landing.idle .holo-base   { opacity: 1; }
+.landing.idle .holo-beam   { opacity: 0.35; height: 350px; }
+.landing.idle .holo-projection {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: holoIdle 6s ease-in-out infinite;
+}
+
+@keyframes holoIdle {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 12px rgba(0, 240, 255, 0.25)); }
+  50%      { filter: brightness(1.08) drop-shadow(0 0 20px rgba(0, 240, 255, 0.35)); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TITLE
+   ══════════════════════════════════════════════════════════════════════ */
+.title {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  letter-spacing: 6px;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-shadow:
+    0 0 10px var(--cyan),
+    0 0 30px rgba(0, 240, 255, 0.5),
+    3px 3px 0 var(--pink);
+  margin-bottom: 10px;
+  user-select: none;
+  animation: titleGlow 4s ease-in-out infinite;
+}
+
+.title-text {
+  display: inline-block;
+}
+
+.title-infinity {
+  font-size: 2.2em;
+  line-height: 0.6;
+  display: inline-block;
+  margin: 0 -2px;
+  transform: translateY(-0.08em);
+  color: var(--gold);
+  text-shadow:
+    0 0 14px var(--gold),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    3px 3px 0 var(--pink);
+  animation: infinitySpin 8s linear infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 0 10px var(--cyan), 0 0 30px rgba(0,240,255,0.5), 3px 3px 0 var(--pink); }
+  50%      { text-shadow: 0 0 20px var(--cyan), 0 0 60px rgba(0,240,255,0.7), 3px 3px 0 var(--pink); }
+}
+
+@keyframes infinitySpin {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50%      { filter: hue-rotate(25deg); }
+}
+
+/* ── Tagline ───────────────────────────────────────────────────────── */
+.tagline {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(0.5rem, 1.5vw, 0.75rem);
+  letter-spacing: 8px;
+  color: rgba(0, 240, 255, 0.6);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  animation: tagFade 3s ease-in-out infinite alternate;
+}
+
+@keyframes tagFade {
+  0%   { opacity: 0.4; letter-spacing: 8px; }
+  100% { opacity: 0.8; letter-spacing: 12px; }
+}
+
+/* ── Divider ───────────────────────────────────────────────────────── */
+.holo-divider {
+  width: 200px;
+  height: 1px;
+  margin: 0 auto 28px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  position: relative;
+  opacity: 0.5;
+}
+
+.divider-diamond {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.5rem;
+  color: var(--cyan);
+  text-shadow: 0 0 6px var(--cyan);
+  animation: diamondPulse 2s ease-in-out infinite;
+}
+
+@keyframes diamondPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.4); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════════════════════════════════════════ */
+.btn-row {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.holo-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 32px;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(0.55rem, 1.2vw, 0.7rem);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.3s, border-color 0.3s;
+}
+
+/* Corner decorations */
+.btn-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: currentColor;
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.btn-corner.tl { top: 3px; left: 3px;   border-top-width: 2px; border-left-width: 2px; }
+.btn-corner.tr { top: 3px; right: 3px;  border-top-width: 2px; border-right-width: 2px; }
+.btn-corner.bl { bottom: 3px; left: 3px;  border-bottom-width: 2px; border-left-width: 2px; }
+.btn-corner.br { bottom: 3px; right: 3px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Enter World — cyan/mint */
+.holo-btn.enter {
+  color: var(--mint);
+  border-color: var(--mint);
+  background: rgba(0, 255, 198, 0.08);
+  box-shadow: 0 0 14px rgba(0, 255, 198, 0.15), inset 0 0 20px rgba(0, 255, 198, 0.05);
+}
+
+.holo-btn.enter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 198, 0.1) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: btnSweep 3s ease-in-out infinite;
+}
+
+.holo-btn.enter:hover {
+  background: rgba(0, 255, 198, 0.18);
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(0, 255, 198, 0.35), inset 0 0 30px rgba(0, 255, 198, 0.1);
+  transform: translateY(-2px);
+}
+
+.holo-btn.enter:hover .btn-corner { opacity: 1; }
+
+/* Create Character — violet/pink */
+.holo-btn.create {
+  color: var(--violet);
+  border-color: var(--violet);
+  background: rgba(216, 99, 255, 0.08);
+  box-shadow: 0 0 14px rgba(216, 99, 255, 0.15), inset 0 0 20px rgba(216, 99, 255, 0.05);
+}
+
+.holo-btn.create::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(216, 99, 255, 0.1) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: btnSweep 3s ease-in-out 1.5s infinite;
+}
+
+.holo-btn.create:hover {
+  background: rgba(216, 99, 255, 0.18);
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(216, 99, 255, 0.35), inset 0 0 30px rgba(216, 99, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.holo-btn.create:hover .btn-corner { opacity: 1; }
+
+@keyframes btnSweep {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.btn-icon {
+  font-size: 1em;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+.btn-label {
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FLOATING PARTICLES
+   ══════════════════════════════════════════════════════════════════════ */
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  background: var(--cyan);
+  border-radius: 50%;
+  opacity: 0;
+  animation: rise var(--dur) var(--delay) ease-in infinite;
+  box-shadow: 0 0 6px var(--cyan);
+}
+
+@keyframes rise {
+  0%   { opacity: 0; transform: translateY(0) scale(1); }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-100vh) scale(0.3); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .holo-projection {
+    padding: 28px 20px 28px;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .holo-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .title-infinity {
+    font-size: 1.8em;
+  }
+
+  .holo-base-ring { width: 220px; }
+  .holo-base-ring.ring2 { width: 260px; }
+}

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap");
 
 * {
   margin: 0;
@@ -11,11 +12,20 @@
 
 body {
   font-family: "Press Start 2P", "Courier New", monospace;
-  background-color: #2d3748;
+  background-color: transparent;
   color: #00ff41;
   overflow-x: hidden;
   position: relative;
+  min-height: 100vh;
   line-height: 1.6;
+}
+
+#warp-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* CRT scanline effect */
@@ -80,22 +90,29 @@ body::after {
   padding: 60px 20px 40px;
   position: relative;
   z-index: 2;
-  background: #1a202c;
-  border-bottom: 4px solid #00ff41;
-  box-shadow: 0 4px 0 #00f0ff;
 }
 
 .logo {
-  font-size: 2.5rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: clamp(2rem, 6vw, 3.2rem);
   color: #00f0ff;
-  text-shadow: 3px 3px 0px #ff006e, 6px 6px 0px #1a202c;
-  letter-spacing: 4px;
+  text-shadow:
+    0 0 10px #00f0ff,
+    0 0 30px rgba(0, 240, 255, 0.5),
+    3px 3px 0px #ff006e;
+  letter-spacing: 6px;
   margin-bottom: 40px;
-  animation: blink 2s step-end infinite;
+  animation: titleGlow 4s ease-in-out infinite;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0;
+  user-select: none;
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 0 10px #00f0ff, 0 0 30px rgba(0,240,255,0.5), 3px 3px 0 #ff006e; }
+  50%      { text-shadow: 0 0 20px #00f0ff, 0 0 60px rgba(0,240,255,0.7), 3px 3px 0 #ff006e; }
 }
 
 .logo-text {
@@ -109,6 +126,17 @@ body::after {
   align-items: center;
   margin: 0 -4px;
   transform: translateY(-0.2em);
+  color: #ffd700;
+  text-shadow:
+    0 0 14px #ffd700,
+    0 0 40px rgba(255, 215, 0, 0.4),
+    3px 3px 0 #ff006e;
+  animation: infinityPulse 8s linear infinite;
+}
+
+@keyframes infinityPulse {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50%      { filter: hue-rotate(25deg); }
 }
 
 @keyframes blink {
@@ -135,25 +163,80 @@ body::after {
   font-family: "Press Start 2P", monospace;
   text-decoration: none;
   color: #000;
-  border: 4px solid #000;
-  box-shadow: 6px 6px 0px #000, inset -3px -3px 0 rgba(0, 0, 0, 0.2);
-  transition: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
   cursor: pointer;
   position: relative;
   z-index: 2;
   text-transform: uppercase;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.3s, border-color 0.3s;
+}
+
+/* Enter World button — cyan/mint holographic */
+.pixel-btn.btn-enter {
+  color: #00ffc6;
+  background: rgba(0, 255, 198, 0.08);
+  border-color: #00ffc6;
+  box-shadow: 0 0 14px rgba(0, 255, 198, 0.15), inset 0 0 20px rgba(0, 255, 198, 0.05);
+}
+
+.pixel-btn.btn-enter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 198, 0.12) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: btnSweep 3s ease-in-out infinite;
+}
+
+.pixel-btn.btn-enter:hover {
+  background: rgba(0, 255, 198, 0.2);
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(0, 255, 198, 0.35), inset 0 0 30px rgba(0, 255, 198, 0.1);
+  transform: translateY(-3px);
   text-decoration: none;
+  color: #00ffc6;
+}
+
+/* Create Character button — violet/pink holographic */
+.pixel-btn.btn-create {
+  color: #d863ff;
+  background: rgba(216, 99, 255, 0.08);
+  border-color: #d863ff;
+  box-shadow: 0 0 14px rgba(216, 99, 255, 0.15), inset 0 0 20px rgba(216, 99, 255, 0.05);
+}
+
+.pixel-btn.btn-create::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(216, 99, 255, 0.12) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: btnSweep 3s ease-in-out 1.5s infinite;
+}
+
+.pixel-btn.btn-create:hover {
+  background: rgba(216, 99, 255, 0.2);
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(216, 99, 255, 0.35), inset 0 0 30px rgba(216, 99, 255, 0.1);
+  transform: translateY(-3px);
+  text-decoration: none;
+  color: #d863ff;
+}
+
+@keyframes btnSweep {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
 }
 
 .pixel-btn:hover {
-  box-shadow: 4px 4px 0px #000, inset -2px -2px 0 rgba(0, 0, 0, 0.25);
-  transform: translate(2px, 2px);
   text-decoration: none;
 }
 
 .pixel-btn:active {
-  box-shadow: 2px 2px 0px #000, inset 3px 3px 0 rgba(0, 0, 0, 0.35);
-  transform: translate(4px, 4px);
+  transform: translateY(0);
 }
 
 .pixel-arrow {
@@ -215,12 +298,13 @@ body::after {
 
 .feature-card {
   min-width: 300px;
-  background: #1a202c;
+  background: rgba(26, 32, 44, 0.78);
   border: 4px solid #00f0ff;
   padding: 24px;
   box-shadow: 6px 6px 0px #00ff41;
   position: relative;
   transition: transform 0.1s step-end;
+  backdrop-filter: blur(4px);
 }
 
 .feature-card::before {
@@ -253,7 +337,7 @@ body::after {
 }
 
 .carousel-btn {
-  background: #1a202c;
+  background: rgba(26, 32, 44, 0.9);
   border: 4px solid #00f0ff;
   color: #00f0ff;
   width: 56px;
@@ -318,4 +402,211 @@ body::after {
     height: 48px;
     font-size: 1rem;
   }
+
+  .holo-base-ring { width: 220px !important; }
+  .holo-base-ring.ring2 { width: 260px !important; }
+
+  .projects_button {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   HOLOGRAM WRAPPER & BOOT-UP ANIMATION
+   ══════════════════════════════════════════════════════════════════════ */
+#holo-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 0;
+  min-height: 50vh;
+  justify-content: center;
+}
+
+/* ── Base plate rings ──────────────────────────────────────────────── */
+.holo-base {
+  position: absolute;
+  bottom: -10px;
+  width: 360px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.holo-base-ring {
+  position: absolute;
+  width: 280px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 18px #00f0ff, inset 0 0 10px #00f0ff;
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+.holo-base-ring.ring2 {
+  width: 340px;
+  height: 18px;
+  opacity: 0.4;
+  animation-delay: 1.5s;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scaleX(1); opacity: 0.6; }
+  50%      { transform: scaleX(1.05); opacity: 1; }
+}
+
+/* ── Projection beam ──────────────────────────────────────────────── */
+.holo-beam {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 0;
+  background: linear-gradient(to top, #00f0ff, transparent);
+  border-radius: 2px;
+  opacity: 0;
+  transition: height 1s ease, opacity 0.5s ease;
+  filter: blur(2px);
+  z-index: 0;
+}
+
+/* ── Scanlines inside hologram ─────────────────────────────────────── */
+.holo-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 240, 255, 0.03) 2px,
+    rgba(0, 240, 255, 0.03) 4px
+  );
+  animation: holoScanDrift 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@keyframes holoScanDrift {
+  to { background-position-y: 40px; }
+}
+
+/* ── Projected content ─────────────────────────────────────────────── */
+.holo-projection {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.92);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+
+  /* Holographic glass panel */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 240, 255, 0.06) 0%,
+    rgba(216, 99, 255, 0.04) 50%,
+    rgba(0, 255, 198, 0.06) 100%
+  );
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 40px rgba(0, 240, 255, 0.08),
+    0 0 80px rgba(0, 240, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PHASE TRANSITIONS  (off → flicker → reveal → idle)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* — OFF: everything hidden — */
+.holo-phase-off .holo-base        { opacity: 0; }
+.holo-phase-off .holo-beam        { opacity: 0; height: 0; }
+.holo-phase-off .holo-projection  { opacity: 0; transform: translateY(30px) scale(0.92); }
+.holo-phase-off .holo-scanlines   { opacity: 0; }
+
+/* — FLICKER: base appears, projection flickers — */
+.holo-phase-flicker .holo-base       { opacity: 1; }
+.holo-phase-flicker .holo-beam       { opacity: 0.7; height: 350px; }
+.holo-phase-flicker .holo-scanlines  { opacity: 1; }
+.holo-phase-flicker .holo-projection {
+  animation: holoFlicker 0.15s steps(2) 8;
+}
+
+@keyframes holoFlicker {
+  0%   { opacity: 0; }
+  50%  { opacity: 0.5; filter: brightness(2) hue-rotate(20deg); }
+  100% { opacity: 0; }
+}
+
+/* — REVEAL: content appears with bright bloom — */
+.holo-phase-reveal .holo-base       { opacity: 1; }
+.holo-phase-reveal .holo-beam       { opacity: 0.5; height: 350px; }
+.holo-phase-reveal .holo-scanlines  { opacity: 1; }
+.holo-phase-reveal .holo-projection {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: holoReveal 1s ease forwards;
+}
+
+@keyframes holoReveal {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.95); filter: brightness(3) blur(4px); }
+  40%  { opacity: 1; filter: brightness(1.6) blur(1px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1) blur(0); }
+}
+
+/* — IDLE: gentle breathing glow — */
+.holo-phase-idle .holo-base       { opacity: 1; }
+.holo-phase-idle .holo-beam       { opacity: 0.35; height: 350px; }
+.holo-phase-idle .holo-scanlines  { opacity: 1; }
+.holo-phase-idle .holo-projection {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: holoIdle 6s ease-in-out infinite;
+}
+
+@keyframes holoIdle {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 12px rgba(0, 240, 255, 0.25)); }
+  50%      { filter: brightness(1.08) drop-shadow(0 0 20px rgba(0, 240, 255, 0.4)); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FLOATING PARTICLES
+   ══════════════════════════════════════════════════════════════════════ */
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  background: #00f0ff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: rise var(--dur) var(--delay) ease-in infinite;
+  box-shadow: 0 0 6px #00f0ff;
+}
+
+@keyframes rise {
+  0%   { opacity: 0; transform: translateY(0) scale(1); }
+  20%  { opacity: 0.6; }
+  80%  { opacity: 0.2; }
+  100% { opacity: 0; transform: translateY(-100vh) scale(0.3); }
 }

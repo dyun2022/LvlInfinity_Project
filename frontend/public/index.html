@@ -3,80 +3,77 @@
     <head>
         <title>Lvl&infin;nity | Main Page</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <link href="lib/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
-        <link rel="stylesheet" href="../src/styles/index.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="%PUBLIC_URL%/landing.css" />
     </head>
 
     <body>
+        <!-- Wave background rendered by React -->
         <div id="warp-root" aria-hidden="true"></div>
 
-        <div id="header">
-            <h1 class="logo">
-                <span class="logo-text">Lvl</span>
-                <span class="infinity">&infin;</span>
-                <span class="logo-text">ity</span>
-            </h1>
+        <!-- Hologram projection container — centered over background -->
+        <div id="holo-wrapper" class="holo-phase-off">
+            <!-- Hologram base rings -->
+            <div class="holo-base">
+                <div class="holo-base-ring"></div>
+                <div class="holo-base-ring ring2"></div>
+            </div>
 
-            <!-- <h1>Lvl<span class="infinity">&infin;</span>nity</h1> -->
+            <!-- Hologram projection beam -->
+            <div class="holo-beam"></div>
 
-            <div class="projects_button">
-                <a href="login.html" class="pixel-btn" style="background-color: #00ffc6;">ENTER WORLD</a>
-                <a href="register.html" class="pixel-btn" style="background-color: #d863ff;;">CREATE CHARACTER</a>
+            <!-- Scanline overlay inside hologram -->
+            <div class="holo-scanlines"></div>
+
+            <!-- Projected content -->
+            <div class="holo-projection">
+                <h1 class="logo">
+                    <span class="logo-text">Lvl</span>
+                    <span class="infinity">&infin;</span>
+                    <span class="logo-text">nity</span>
+                </h1>
+
+                <div class="holo-divider"><span class="divider-diamond">&#9670;</span></div>
+
+                <div class="btn-row">
+                    <a href="login.html" class="holo-btn btn-enter">
+                        <span class="btn-icon">&#9654;</span>
+                        <span>ENTER WORLD</span>
+                    </a>
+                    <a href="register.html" class="holo-btn btn-create">
+                        <span class="btn-icon">&#9733;</span>
+                        <span>CREATE CHARACTER</span>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <button class="pixel-arrow" aria-label="Scroll down">
-                <span class="arrow"></span>
-        </button>
-
-        <section class="carousel-section" id="features">
-            <button class="carousel-btn left" onclick="scrollCarousel(-1)">◀</button>
-
-            <div class="carousel">
-                <div class="carousel-track">
-                <div class="feature-card">
-                    <h3>QUESTS</h3>
-                    <p>Post projects and progress as quests.</p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>SAVE FILES</h3>
-                    <p>Log daily work and proof-of-progress.</p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>PARTY SYSTEM</h3>
-                    <p>Follow devs with similar interests.</p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>ACHIEVEMENTS</h3>
-                    <p>Track milestones and streaks.</p>
-                </div>
-                </div>
-            </div>
-
-            <button class="carousel-btn right" onclick="scrollCarousel(1)">▶</button>
-
-        </section>
+        <!-- Floating particles -->
+        <div class="particles" id="particles"></div>
 
         <script>
-            // CARD CAROUSEL FUNCTION
-            let index = 0;
-            function scrollCarousel(direction) {
-                const track = document.querySelector(".carousel-track");
-                const cards = document.querySelectorAll(".feature-card");
+            // ── Hologram boot-up sequence ──────────────────────────────
+            (function() {
+                var wrapper = document.getElementById('holo-wrapper');
 
-                index += direction;
+                setTimeout(function() { wrapper.className = 'holo-phase-flicker'; }, 600);
+                setTimeout(function() { wrapper.className = 'holo-phase-reveal'; }, 2200);
+                setTimeout(function() { wrapper.className = 'holo-phase-idle'; }, 3400);
+            })();
 
-                // Clamp index
-                index = Math.max(0, Math.min(index, cards.length - 1));
-
-                const offset = index * (cards[0].offsetWidth + 24);
-                track.style.transform = `translateX(-${offset}px)`;
-            }
+            // ── Generate floating particles ───────────────────────────
+            (function() {
+                var container = document.getElementById('particles');
+                for (var i = 0; i < 25; i++) {
+                    var p = document.createElement('span');
+                    p.className = 'particle';
+                    p.style.setProperty('--x', (Math.random() * 100) + '%');
+                    p.style.setProperty('--delay', (Math.random() * 6) + 's');
+                    p.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
+                    p.style.setProperty('--size', (1 + Math.random() * 3) + 'px');
+                    container.appendChild(p);
+                }
+            })();
         </script>
 
     </body>

@@ -1,0 +1,46 @@
+type User @table {
+  username: String!
+  email: String!
+  createdAt: Timestamp!
+  displayName: String
+  bio: String
+  profilePictureUrl: String
+  githubUrl: String
+  linkedinUrl: String
+  portfolioUrl: String
+}
+
+type Post @table {
+  content: String!
+  createdAt: Timestamp!
+  author: User
+  imageUrl: String
+  codeSnippet: String
+  tag: String
+}
+
+type Comment @table {
+  content: String!
+  createdAt: Timestamp!
+  author: User
+  post: Post
+}
+
+type InterestGroup @table {
+  name: String!
+  description: String!
+  createdAt: Timestamp!
+  topic: String
+}
+
+type GroupMembership @table(key: ["user", "group"]) {
+  user: User!
+  group: InterestGroup!
+  joinedAt: Timestamp!
+}
+
+type Follow @table(key: ["follower", "followed"]) {
+  follower: User!
+  followed: User!
+  createdAt: Timestamp!
+}

@@ -1,80 +1,17 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Lvl&infin;nity | Main Page</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="%PUBLIC_URL%/landing.css" />
-    </head>
-
-    <body>
-        <!-- Wave background rendered by React -->
-        <div id="warp-root" aria-hidden="true"></div>
-
-        <!-- Hologram projection container — centered over background -->
-        <div id="holo-wrapper" class="holo-phase-off">
-            <!-- Hologram base rings -->
-            <div class="holo-base">
-                <div class="holo-base-ring"></div>
-                <div class="holo-base-ring ring2"></div>
-            </div>
-
-            <!-- Hologram projection beam -->
-            <div class="holo-beam"></div>
-
-            <!-- Scanline overlay inside hologram -->
-            <div class="holo-scanlines"></div>
-
-            <!-- Projected content -->
-            <div class="holo-projection">
-                <h1 class="logo">
-                    <span class="logo-text">Lvl</span>
-                    <span class="infinity">&infin;</span>
-                    <span class="logo-text">nity</span>
-                </h1>
-
-                <div class="holo-divider"><span class="divider-diamond">&#9670;</span></div>
-
-                <div class="btn-row">
-                    <a href="login.html" class="holo-btn btn-enter">
-                        <span class="btn-icon">&#9654;</span>
-                        <span>ENTER WORLD</span>
-                    </a>
-                    <a href="register.html" class="holo-btn btn-create">
-                        <span class="btn-icon">&#9733;</span>
-                        <span>CREATE CHARACTER</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Floating particles -->
-        <div class="particles" id="particles"></div>
-
-        <script>
-            // ── Hologram boot-up sequence ──────────────────────────────
-            (function() {
-                var wrapper = document.getElementById('holo-wrapper');
-
-                setTimeout(function() { wrapper.className = 'holo-phase-flicker'; }, 600);
-                setTimeout(function() { wrapper.className = 'holo-phase-reveal'; }, 2200);
-                setTimeout(function() { wrapper.className = 'holo-phase-idle'; }, 3400);
-            })();
-
-            // ── Generate floating particles ───────────────────────────
-            (function() {
-                var container = document.getElementById('particles');
-                for (var i = 0; i < 25; i++) {
-                    var p = document.createElement('span');
-                    p.className = 'particle';
-                    p.style.setProperty('--x', (Math.random() * 100) + '%');
-                    p.style.setProperty('--delay', (Math.random() * 6) + 's');
-                    p.style.setProperty('--dur', (3 + Math.random() * 5) + 's');
-                    p.style.setProperty('--size', (1 + Math.random() * 3) + 'px');
-                    container.appendChild(p);
-                }
-            })();
-        </script>
-
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0e17" />
+    <meta
+      name="description"
+      content="Lvl∞nity"
+    />
+    <title>Lvl∞nity | Main Page</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
 </html>

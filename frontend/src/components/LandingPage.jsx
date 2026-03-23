@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import { portalVariants } from "../animations/transitions.config";
 import "./LandingPage.css";
 
 export default function LandingPage() {
   const [phase, setPhase] = useState("off");
-  // off → flicker → reveal → idle
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("flicker"), 600);
@@ -12,8 +18,30 @@ export default function LandingPage() {
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
 
+  const handleEnterWorld = () => {
+    setIsTransitioning(true);
+    if (isAuthenticated) {
+      navigate("/world");
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const handleCreateCharacter = () => {
+    setIsTransitioning(true);
+    if (isAuthenticated) {
+      navigate("/character-creation");
+    } else {
+      navigate("/register");
+    }
+  };
+
   return (
-    <div className={`landing ${phase}`}>
+    <motion.div
+      className={`landing ${phase}`}
+      animate={isTransitioning ? "zoom" : "initial"}
+      variants={portalVariants}
+    >
       {/* Scanline overlay */}
       <div className="holo-scanlines" />
 
@@ -29,7 +57,12 @@ export default function LandingPage() {
         <div className="holo-beam" />
 
         {/* Main content that "projects" out of the hologram */}
-        <div className="holo-projection">
+        <motion.div
+          className="holo-projection"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
           {/* Title */}
           <h1 className="title">
             <span className="title-text">Lvl</span>
@@ -38,7 +71,7 @@ export default function LandingPage() {
           </h1>
 
           {/* Subtitle tagline */}
-          <p className="tagline">LEVEL&nbsp;UP&nbsp;YOUR&nbsp;WORLD</p>
+          <p className="tagline" aria-hidden="true"></p>
 
           {/* Holographic divider */}
           <div className="holo-divider">
@@ -47,25 +80,37 @@ export default function LandingPage() {
 
           {/* Buttons */}
           <div className="btn-row">
-            <a href="login.html" className="holo-btn enter">
+            <motion.button
+              className="holo-btn enter"
+              onClick={handleEnterWorld}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Enter the world or login"
+            >
               <span className="btn-icon">&#9654;</span>
               <span className="btn-label">ENTER WORLD</span>
               <span className="btn-corner tl" />
               <span className="btn-corner tr" />
               <span className="btn-corner bl" />
               <span className="btn-corner br" />
-            </a>
+            </motion.button>
 
-            <a href="register.html" className="holo-btn create">
+            <motion.button
+              className="holo-btn create"
+              onClick={handleCreateCharacter}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Create character or sign up"
+            >
               <span className="btn-icon">&#9733;</span>
               <span className="btn-label">CREATE CHARACTER</span>
               <span className="btn-corner tl" />
               <span className="btn-corner tr" />
               <span className="btn-corner bl" />
               <span className="btn-corner br" />
-            </a>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Floating particle emitters */}
@@ -83,6 +128,6 @@ export default function LandingPage() {
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

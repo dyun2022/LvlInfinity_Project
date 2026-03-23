@@ -13,62 +13,92 @@ function mkRand(seed) {
 }
 
 // ── Sky & atmosphere ──────────────────────────────────────────────────────────
-function drawSky(ctx, t) {
-  // Warm magenta/peach/teal gradient like reference
-  const sky = ctx.createRadialGradient(VP.x, VP.y, 0, VP.x, VP.y * 0.5, H * 1.1);
-  sky.addColorStop(0.0,  "#ffe8d0"); // warm white core
-  sky.addColorStop(0.08, "#ffb8d0"); // peach pink
-  sky.addColorStop(0.22, "#f060a0"); // hot magenta
-  sky.addColorStop(0.42, "#c040a0"); // deep magenta
-  sky.addColorStop(0.62, "#703080"); // purple
-  sky.addColorStop(0.80, "#204060"); // dark teal-blue
-  sky.addColorStop(1.0,  "#0a1825"); // near black
+function drawSky(ctx, t, isDark) {
+  const sky = ctx.createRadialGradient(VP.x, VP.y * 0.4, 0, VP.x, VP.y * 1.2, H * 1.3);
+  
+  if (isDark) {
+    // Dark night-city palette: very dark blue → indigo → deep purple
+    sky.addColorStop(0.0,  "#0a1f3f"); // very dark blue center
+    sky.addColorStop(0.15, "#1a2a5f"); // dark blue-purple
+    sky.addColorStop(0.35, "#2a3a7f"); // indigo
+    sky.addColorStop(0.55, "#1a2a5f"); // back to dark blue-purple
+    sky.addColorStop(0.75, "#0f1a3a"); // very dark indigo
+    sky.addColorStop(0.92, "#050f20"); // near black
+    sky.addColorStop(1.0,  "#020508"); // pure black
+  } else {
+    // Bright landing page: cyan → magenta → purple
+    sky.addColorStop(0.0,  "#00f0ff"); // bright cyan at center
+    sky.addColorStop(0.15, "#d863ff"); // bright magenta
+    sky.addColorStop(0.35, "#9040e8"); // deep purple
+    sky.addColorStop(0.55, "#5020b8"); // richer purple
+    sky.addColorStop(0.75, "#2a1a6a"); // deep purple-indigo
+    sky.addColorStop(0.92, "#0f0f3a"); // dark indigo
+    sky.addColorStop(1.0,  "#050520"); // very dark indigo
+  }
+  
   ctx.fillStyle = sky;
   ctx.fillRect(0, 0, W, H);
 
-  // Nebula/cloud wisps in upper sky — like the teal cloud mass in reference
+  // Atmospheric haze
   ctx.save();
-  ctx.globalAlpha = 0.18;
-  const cloud = ctx.createRadialGradient(W*0.35, H*0.08, 0, W*0.35, H*0.08, W*0.32);
-  cloud.addColorStop(0, "rgba(80,220,200,0.7)");
-  cloud.addColorStop(0.5, "rgba(40,140,160,0.3)");
-  cloud.addColorStop(1, "transparent");
-  ctx.fillStyle = cloud;
-  ctx.fillRect(0, 0, W, H);
-  const cloud2 = ctx.createRadialGradient(W*0.72, H*0.05, 0, W*0.72, H*0.05, W*0.22);
-  cloud2.addColorStop(0, "rgba(60,200,180,0.5)");
-  cloud2.addColorStop(1, "transparent");
-  ctx.fillStyle = cloud2;
+  const hazeAlpha = isDark ? 0.06 : 0.15;
+  ctx.globalAlpha = hazeAlpha;
+  const haze = ctx.createRadialGradient(VP.x, VP.y, W * 0.1, VP.x, VP.y, W * 0.8);
+  
+  if (isDark) {
+    haze.addColorStop(0.0, "rgba(100,150,200,0.3)");
+    haze.addColorStop(0.3, "rgba(80,100,150,0.15)");
+  } else {
+    haze.addColorStop(0.0, "rgba(0,240,255,0.6)");
+    haze.addColorStop(0.3, "rgba(216,99,255,0.3)");
+  }
+  
+  haze.addColorStop(1, "transparent");
+  ctx.fillStyle = haze;
   ctx.fillRect(0, 0, W, H);
   ctx.restore();
 
-  // Stars — teal/white sparkles like reference
+  // Stars
   const sr = mkRand(42);
-  for (let i = 0; i < 200; i++) {
+  const starCount = isDark ? 100 : 80;
+  for (let i = 0; i < starCount; i++) {
     const sx = sr() * W;
-    const sy = sr() * H * 0.72;
-    const size = sr() * 2.2;
-    const twinkle = 0.3 + 0.7 * Math.abs(Math.sin(t * 1.4 + i * 0.83));
-    const isTeal = sr() > 0.55;
+    const sy = sr() * H * 0.6;
+    const size = sr() * 1.3;
+    const twinkle = 0.2 + 0.5 * Math.abs(Math.sin(t * 0.7 + i * 0.73));
+    const isCyan = sr() > 0.5;
     ctx.save();
     ctx.beginPath();
-    ctx.arc(sx, sy, size * 0.5, 0, Math.PI * 2);
-    ctx.fillStyle = isTeal
-      ? `rgba(80,255,220,${twinkle * 0.85})`
-      : `rgba(255,255,255,${twinkle * 0.75})`;
-    if (size > 1.4) { ctx.shadowColor = isTeal ? "#40ffcc" : "#ffffff"; ctx.shadowBlur = 6; }
+    ctx.arc(sx, sy, size * 0.35, 0, Math.PI * 2);
+    
+    if (isDark) {
+      // Dim, cool-toned stars for night
+      ctx.fillStyle = isCyan
+        ? `rgba(100,180,255,${twinkle * 0.4})`
+        : `rgba(150,120,200,${twinkle * 0.35})`;
+    } else {
+      // Bright stars for landing page
+      ctx.fillStyle = isCyan
+        ? `rgba(0,240,255,${twinkle * 0.7})`
+        : `rgba(216,99,255,${twinkle * 0.6})`;
+    }
+    
+    if (size > 1.2) { 
+      ctx.shadowColor = isCyan ? (isDark ? "#6490d0" : "#00f0ff") : (isDark ? "#9060b0" : "#d863ff");
+      ctx.shadowBlur = isDark ? 2 : 4; 
+    }
     ctx.fill();
     ctx.restore();
 
-    // Diamond sparkle shape for brighter stars
-    if (size > 1.7) {
+    // Glow for brighter stars
+    if (size > 1.5) {
       ctx.save();
-      ctx.globalAlpha = twinkle * 0.6;
-      ctx.strokeStyle = isTeal ? "#40ffcc" : "#ffffff";
-      ctx.lineWidth = 0.5;
+      ctx.globalAlpha = twinkle * (isDark ? 0.2 : 0.5);
+      ctx.strokeStyle = isCyan ? (isDark ? "#6490d0" : "#00f0ff") : (isDark ? "#9060b0" : "#d863ff");
+      ctx.lineWidth = isDark ? 0.3 : 0.8;
       ctx.beginPath();
-      ctx.moveTo(sx, sy - size * 3); ctx.lineTo(sx, sy + size * 3);
-      ctx.moveTo(sx - size * 3, sy); ctx.lineTo(sx + size * 3, sy);
+      ctx.moveTo(sx, sy - size * 2.5); ctx.lineTo(sx, sy + size * 2.5);
+      ctx.moveTo(sx - size * 2.5, sy); ctx.lineTo(sx + size * 2.5, sy);
       ctx.stroke();
       ctx.restore();
     }
@@ -82,88 +112,124 @@ function getBuildingProfile(seed, maxW, maxH) {
   if (BLDG_CACHE.has(key)) return BLDG_CACHE.get(key);
   const r = mkRand(seed);
 
-  // Style: chunky retro-future blocks with setbacks (like reference)
-  const style = Math.floor(r() * 4); // 0=empire state tapered, 1=blocky slab, 2=stepped pyramid, 3=cylinder top
-  const baseW = maxW * (0.5 + r() * 0.5);
-  const baseH = maxH * (0.4 + r() * 0.6);
+  // Keep a stable canonical building box so vertical stacking math matches drawn height.
+  const baseW = maxW;
+  const baseH = maxH;
+  const style = Math.floor(r() * 4);
+  const cx = baseW / 2;
 
-  // Generate silhouette as polygon points (relative, bottom-left origin)
-  const pts = [];
+  // Segments are coherent rectangular masses that form the silhouette.
+  const segments = [];
+  let y = 0;
+  const pushSegment = (wFrac, hFrac) => {
+    const h = baseH * hFrac;
+    const w = baseW * wFrac;
+    const x = cx - w / 2;
+    segments.push({ x, y, w, h });
+    y += h;
+  };
+
   if (style === 0) {
-    // Empire-state style — narrow taper with setbacks
-    const steps = 3 + Math.floor(r() * 4);
-    for (let i = 0; i <= steps; i++) {
-      const frac = i / steps;
-      const w = baseW * (1 - frac * 0.72);
-      const h = baseH * frac;
-      if (i === 0) { pts.push([0, 0], [baseW, 0]); }
-      pts.push([baseW / 2 + w / 2, h], [baseW / 2 - w / 2, h]);
-    }
+    pushSegment(1.00, 0.56);
+    pushSegment(0.78, 0.26);
+    pushSegment(0.60, 0.18);
   } else if (style === 1) {
-    // Chunky slab — one or two offsets
-    const mid = 0.45 + r() * 0.3;
-    const w2 = baseW * (0.55 + r() * 0.35);
-    pts.push(
-      [0, 0], [baseW, 0],
-      [baseW, baseH * mid], [baseW / 2 + w2 / 2, baseH * mid],
-      [baseW / 2 + w2 / 2, baseH], [baseW / 2 - w2 / 2, baseH],
-      [baseW / 2 - w2 / 2, baseH * mid], [0, baseH * mid]
-    );
+    pushSegment(0.92, 0.44);
+    pushSegment(0.92, 0.24);
+    pushSegment(0.70, 0.20);
+    pushSegment(0.52, 0.12);
   } else if (style === 2) {
-    // Stepped pyramid
-    const steps = 2 + Math.floor(r() * 3);
-    pts.push([0, 0], [baseW, 0]);
-    for (let i = 1; i <= steps; i++) {
-      const frac = i / steps;
-      const inset = (baseW / steps) * 0.4 * i;
-      pts.push([baseW - inset, baseH * frac * 0.85]);
-      pts.push([inset, baseH * frac * 0.85]);
-    }
-    pts.push([baseW / 2, baseH]);
+    pushSegment(1.00, 0.34);
+    pushSegment(0.84, 0.26);
+    pushSegment(0.68, 0.22);
+    pushSegment(0.54, 0.18);
   } else {
-    // Tall slab with cylindrical/dome top
-    pts.push(
-      [0, 0], [baseW, 0],
-      [baseW, baseH * 0.8], [baseW / 2 + baseW * 0.3, baseH * 0.8],
-      [baseW / 2, baseH], [baseW / 2 - baseW * 0.3, baseH * 0.8],
-      [0, baseH * 0.8]
-    );
+    pushSegment(0.88, 0.62);
+    pushSegment(0.72, 0.22);
+    pushSegment(0.44, 0.16);
   }
 
-  // Window rows
+  // Build windows per segment only, guaranteeing windows always belong to body mass.
   const windows = [];
-  const wcols = Math.max(2, Math.floor(baseW / 14));
-  const wrows = Math.max(3, Math.floor(baseH / 18));
   const wr = mkRand(seed + 1);
-  for (let row = 0; row < wrows; row++) {
-    for (let col = 0; col < wcols; col++) {
-      windows.push({
-        x: (col / wcols) * baseW + 3,
-        y: (row / wrows) * baseH + 4,
-        w: baseW / wcols - 5,
-        h: baseH / wrows - 6,
-        lit: wr() > 0.35,
-        warm: wr() > 0.5,
-        flick: wr() > 0.93,
-      });
+  segments.forEach((seg, segIdx) => {
+    if (seg.w < 18 || seg.h < 20) return;
+    const padX = Math.max(2.5, seg.w * 0.08);
+    const padY = Math.max(3, seg.h * 0.08);
+    const usableW = seg.w - padX * 2;
+    const usableH = seg.h - padY * 2;
+    if (usableW < 10 || usableH < 10) return;
+    const cols = Math.max(1, Math.floor(usableW / 13));
+    const rows = Math.max(1, Math.floor(usableH / 16));
+    const cellW = usableW / cols;
+    const cellH = usableH / rows;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const ww = Math.max(1, cellW - 3);
+        const wh = Math.max(1, cellH - 4);
+        windows.push({
+          x: seg.x + padX + col * cellW + (cellW - ww) * 0.5,
+          y: seg.y + padY + row * cellH + (cellH - wh) * 0.5,
+          w: ww,
+          h: wh,
+          segIdx,
+          lit: wr() > 0.38,
+          warm: wr() > 0.52,
+          flick: wr() > 0.95,
+        });
+      }
     }
-  }
+  });
 
-  // Antenna / spire
-  const spire = r() > 0.45 ? 30 + r() * 100 : 0;
-  const hasLedge = r() > 0.5; // floating ledge/platform
-  const ledgeY = baseH * (0.3 + r() * 0.5);
-  const ledgeW = baseW * (1.1 + r() * 0.4);
+  // Keep architectural accents attached to actual building mass.
+  const topSeg = segments[segments.length - 1];
+  const spireBaseX = topSeg.x + topSeg.w * 0.5;
+  const spireBaseY = topSeg.y + topSeg.h;
+  const spire = r() > 0.52 ? 28 + r() * 78 : 0;
+  const hasLedge = r() > 0.8;
+  const ledgeSeg = segments[Math.max(0, segments.length - 2)];
+  const ledgeY = ledgeSeg.y + ledgeSeg.h * (0.45 + r() * 0.25);
+  const ledgeW = ledgeSeg.w * (0.62 + r() * 0.18);
 
-  const data = { pts, baseW, baseH, style, windows, spire, hasLedge, ledgeY, ledgeW };
+  const data = {
+    baseW,
+    baseH,
+    segments,
+    windows,
+    spire,
+    spireBaseX,
+    spireBaseY,
+    hasLedge,
+    ledgeY,
+    ledgeW,
+  };
   BLDG_CACHE.set(key, data);
   return data;
+}
+
+function pathBuilding(ctx, segments, sx, sy) {
+  ctx.beginPath();
+  segments.forEach(seg => {
+    ctx.rect(sx(seg.x), sy(seg.y + seg.h), seg.w * (sx(1) - sx(0)), seg.h * (sy(0) - sy(1)));
+  });
 }
 
 // ── Draw one building ─────────────────────────────────────────────────────────
 function drawBuilding(ctx, bx, by, scaleX, scaleY, seed, side, t, layerAlpha, tint) {
   const prof = getBuildingProfile(seed, 160, 400);
-  const { pts, baseW, baseH, windows, spire, hasLedge, ledgeY, ledgeW } = prof;
+  const {
+    baseW,
+    baseH,
+    segments,
+    windows,
+    spire,
+    spireBaseX,
+    spireBaseY,
+    hasLedge,
+    ledgeY,
+    ledgeW,
+  } = prof;
   const fw = baseW * scaleX;
   const fh = baseH * scaleY;
   if (fw < 2 || fh < 2) return;
@@ -176,12 +242,9 @@ function drawBuilding(ctx, bx, by, scaleX, scaleY, seed, side, t, layerAlpha, ti
   ctx.save();
   ctx.globalAlpha = layerAlpha;
 
-  // Silhouette path
-  if (pts.length > 2) {
-    ctx.beginPath();
-    ctx.moveTo(sx(pts[0][0]), sy(pts[0][1]));
-    for (let i = 1; i < pts.length; i++) ctx.lineTo(sx(pts[i][0]), sy(pts[i][1]));
-    ctx.closePath();
+  // Silhouette body is drawn first as one coherent mass.
+  if (segments.length > 0) {
+    pathBuilding(ctx, segments, sx, sy);
     const bodyG = ctx.createLinearGradient(sx(0), sy(baseH), sx(0), sy(0));
     bodyG.addColorStop(0, tint.dark);
     bodyG.addColorStop(0.5, tint.mid);
@@ -197,37 +260,43 @@ function drawBuilding(ctx, bx, by, scaleX, scaleY, seed, side, t, layerAlpha, ti
     ctx.stroke();
   }
 
-  // Windows
-  windows.forEach(w => {
-    const wx = sx(w.x), wy = sy(w.y + w.h);
-    const ww = w.w * scaleX, wh = w.h * scaleY;
-    if (ww < 1 || wh < 1) return;
-    if (!w.lit) return;
-    if (w.flick && Math.sin(t * 9.1 + seed * 0.4 + w.x) > 0.3) return;
-    ctx.shadowBlur = 0;
-    if (w.warm) {
-      ctx.fillStyle = `rgba(255,180,120,0.65)`;
-    } else {
-      // teal/magenta windows like reference
-      ctx.fillStyle = Math.sin(seed + w.x) > 0
-        ? `rgba(255,80,140,0.6)`
-        : `rgba(80,220,200,0.55)`;
-    }
-    ctx.fillRect(wx, wy, ww, wh);
-    // Glow
-    if (scaleX > 0.5) {
-      ctx.save();
-      ctx.shadowColor = w.warm ? "#ffaa60" : (Math.sin(seed + w.x) > 0 ? "#ff4080" : "#40ddbb");
-      ctx.shadowBlur = 5 * scaleX;
-      ctx.fillRect(wx, wy, ww, wh);
-      ctx.restore();
-    }
-  });
+  // Windows are clipped to body mass, preventing orphan/floating windows.
+  if (segments.length > 0) {
+    ctx.save();
+    pathBuilding(ctx, segments, sx, sy);
+    ctx.clip();
 
-  // Floating ledge/platform (horizontal slab sticking out — very reference-like)
-  if (hasLedge && scaleX > 0.3) {
+    windows.forEach(w => {
+      const wx = sx(w.x), wy = sy(w.y + w.h);
+      const ww = Math.max(1, w.w * scaleX), wh = Math.max(1, w.h * scaleY);
+      if (!w.lit) return;
+      if (w.flick && Math.sin(t * 9.1 + seed * 0.4 + w.x) > 0.3) return;
+      ctx.shadowBlur = 0;
+      if (w.warm) {
+        ctx.fillStyle = `rgba(255,200,100,0.65)`;
+      } else {
+        ctx.fillStyle = Math.sin(seed + w.x) > 0
+          ? `rgba(216,99,255,0.65)`
+          : `rgba(0,240,255,0.6)`;
+      }
+      ctx.fillRect(wx, wy, ww, wh);
+      if (scaleX > 0.7) {
+        ctx.save();
+        ctx.shadowColor = w.warm ? "#ffc860" : (Math.sin(seed + w.x) > 0 ? "#d863ff" : "#00f0ff");
+        ctx.shadowBlur = 5 * scaleX;
+        ctx.globalAlpha = 0.6;
+        ctx.fillRect(wx, wy, ww, wh);
+        ctx.restore();
+      }
+    });
+
+    ctx.restore();
+  }
+
+  // Attached ledge only on sufficiently large/near buildings.
+  if (hasLedge && scaleX > 0.45 && layerAlpha > 0.55) {
     ctx.shadowBlur = 0;
-    const lx = sx(-ledgeW * 0.05);
+    const lx = sx((baseW - ledgeW) * 0.5);
     const ly = sy(ledgeY);
     const lw = ledgeW * scaleX;
     const lh = 6 * scaleY;
@@ -247,20 +316,20 @@ function drawBuilding(ctx, bx, by, scaleX, scaleY, seed, side, t, layerAlpha, ti
     }
   }
 
-  // Spire
+  // Spire anchored to the top segment.
   if (spire > 0 && scaleX > 0.25) {
     ctx.shadowBlur = 0;
     ctx.strokeStyle = tint.edge;
     ctx.lineWidth = 1.2 * scaleX;
     ctx.shadowColor = tint.edge; ctx.shadowBlur = 8;
-    const spireTopY = sy(baseH + spire);
+    const spireTopY = sy(spireBaseY + spire);
     ctx.beginPath();
-    ctx.moveTo(sx(baseW / 2), sy(baseH));
-    ctx.lineTo(sx(baseW / 2), spireTopY);
+    ctx.moveTo(sx(spireBaseX), sy(spireBaseY));
+    ctx.lineTo(sx(spireBaseX), spireTopY);
     ctx.stroke();
     // Tip
     ctx.beginPath();
-    ctx.arc(sx(baseW / 2), spireTopY, 2 * scaleX, 0, Math.PI * 2);
+    ctx.arc(sx(spireBaseX), spireTopY, 2 * scaleX, 0, Math.PI * 2);
     ctx.fillStyle = tint.edge;
     ctx.shadowBlur = 12;
     ctx.fill();
@@ -271,7 +340,6 @@ function drawBuilding(ctx, bx, by, scaleX, scaleY, seed, side, t, layerAlpha, ti
 
 // ── City layer — left or right side buildings ────────────────────────────────
 const LAYER_DEFS = [
-  // { side, depth (0=far,1=near), xFrac(edge position as frac of W), widthFrac, heightFrac, seed, numBuildings }
   { side: "L", depth: 0.08, x: 0,    wf: 0.08, hf: 0.35, seed: 10 },
   { side: "R", depth: 0.08, x: 0.92, wf: 0.08, hf: 0.35, seed: 11 },
   { side: "L", depth: 0.18, x: 0,    wf: 0.13, hf: 0.48, seed: 20 },
@@ -286,28 +354,49 @@ const LAYER_DEFS = [
   { side: "R", depth: 0.82, x: 0.68, wf: 0.32, hf: 1.0,  seed: 61 },
 ];
 
-// Tints per depth — matches reference palette
-function getTint(depth, side) {
-  // Far: teal-blue tones. Near: deep purple/navy
-  const t0 = { // far
-    dark:  "rgba(30,50,70,0.85)",
-    mid:   "rgba(50,75,100,0.7)",
-    light: "rgba(80,110,140,0.6)",
-    edge:  "rgba(80,220,200,0.5)",
-  };
-  const t1 = { // near
-    dark:  "rgba(20,18,40,0.95)",
-    mid:   "rgba(35,28,60,0.88)",
-    light: "rgba(55,45,85,0.75)",
-    edge:  side === "L" ? "rgba(255,80,140,0.45)" : "rgba(80,200,220,0.45)",
-  };
-  const f = depth;
-  return {
-    dark:  lerpColor(t0.dark,  t1.dark,  f),
-    mid:   lerpColor(t0.mid,   t1.mid,   f),
-    light: lerpColor(t0.light, t1.light, f),
-    edge:  f > 0.5 ? t1.edge : t0.edge,
-  };
+// Tints per depth — sunset synthwave palette (muted, atmospheric)
+function getTint(depth, side, isDark) {
+  if (isDark) {
+    const t0 = { // far
+      dark:  "rgba(15,25,45,0.8)",
+      mid:   "rgba(25,35,60,0.7)",
+      light: "rgba(35,50,80,0.6)",
+      edge:  "rgba(80,120,160,0.25)",
+    };
+    const t1 = { // near
+      dark:  "rgba(5,10,20,0.9)",
+      mid:   "rgba(10,15,30,0.85)",
+      light: "rgba(15,25,45,0.75)",
+      edge:  side === "L" ? "rgba(100,150,200,0.3)" : "rgba(80,120,160,0.3)",
+    };
+    const f = depth;
+    return {
+      dark:  lerpColor(t0.dark,  t1.dark,  f),
+      mid:   lerpColor(t0.mid,   t1.mid,   f),
+      light: lerpColor(t0.light, t1.light, f),
+      edge:  f > 0.5 ? t1.edge : t0.edge,
+    };
+  } else {
+    const t0 = { // far
+      dark:  "rgba(20,30,60,0.8)",
+      mid:   "rgba(30,40,80,0.7)",
+      light: "rgba(40,50,100,0.6)",
+      edge:  "rgba(128,200,216,0.4)",
+    };
+    const t1 = { // near
+      dark:  "rgba(10,10,30,0.9)",
+      mid:   "rgba(15,15,40,0.85)",
+      light: "rgba(25,25,55,0.75)",
+      edge:  side === "L" ? "rgba(255,100,200,0.5)" : "rgba(128,200,255,0.5)",
+    };
+    const f = depth;
+    return {
+      dark:  lerpColor(t0.dark,  t1.dark,  f),
+      mid:   lerpColor(t0.mid,   t1.mid,   f),
+      light: lerpColor(t0.light, t1.light, f),
+      edge:  f > 0.5 ? t1.edge : t0.edge,
+    };
+  }
 }
 function lerpColor(a, b, t) { return t > 0.5 ? b : a; } // simple
 
@@ -319,13 +408,13 @@ function getLayerBuildings(layerSeed, count, wf) {
   const r = mkRand(layerSeed * 31337);
   const arr = Array.from({ length: count }, (_, i) => ({
     seed: layerSeed * 100 + i,
-    hFrac: 0.5 + r() * 0.5,
+    hFrac: 0.68 + r() * 0.32,
   }));
   LAYER_BLDG_COUNTS.set(key, arr);
   return arr;
 }
 
-function drawCityLayers(ctx, t) {
+function drawCityLayers(ctx, t, isDark) {
   // Sort back to front
   const sorted = [...LAYER_DEFS].sort((a, b) => a.depth - b.depth);
 
@@ -333,15 +422,14 @@ function drawCityLayers(ctx, t) {
     const { side, depth, x: xFrac, wf, hf, seed } = layer;
     const layerW = W * wf;
     const maxH = H * hf;
-    const groundY = VP.y + (H - VP.y) * (0.05 + depth * 0.15); // where ground meets buildings
-    const tint = getTint(depth, side);
-    const alpha = 0.35 + depth * 0.65;
+    const groundY = VP.y + (H - VP.y) * (0.05 + depth * 0.15);
+    const tint = getTint(depth, side, isDark);
+    const alpha = 0.52 + depth * 0.46;
 
-    // Scroll speed proportional to depth
     const scrollRate = SPEED * 150 * (0.06 + depth * 0.94);
     const scrollY = (t * scrollRate);
 
-    const count = 8;
+    const count = 6;
     const bldgs = getLayerBuildings(seed, count, wf);
     const totalH = bldgs.reduce((s, b) => s + b.hFrac * maxH, 0);
     const loopY = scrollY % totalH;
@@ -353,14 +441,13 @@ function drawCityLayers(ctx, t) {
     ctx.rect(clipX, 0, layerW, H);
     ctx.clip();
 
-    // Draw buildings stacked vertically (scrolling down = flying forward)
+    // Draw buildings stacked vertically
     let yOff = -loopY;
     let bi = 0;
     while (yOff < H + 50) {
       const b = bldgs[((bi % count) + count) % count];
       const bh = b.hFrac * maxH;
       const bx = side === "L" ? 0 : W * xFrac;
-      // Building bottom is at groundY + yOff, top goes up
       const baseY = groundY + yOff + bh;
       const scaleX = layerW / 160;
       const scaleY = (bh / 400);
@@ -373,103 +460,86 @@ function drawCityLayers(ctx, t) {
 }
 
 // ── Road / corridor ──────────────────────────────────────────────────────────
-function drawRoad(ctx, t) {
+function drawRoad(ctx, t, isDark) {
   const roadTop = VP.y + (H - VP.y) * 0.02;
 
-  // Dark road base
+  // Very dark road base — deep blacks and navy
   const rg = ctx.createLinearGradient(0, roadTop, 0, H);
-  rg.addColorStop(0, "#0a0818");
-  rg.addColorStop(0.4, "#120a20");
-  rg.addColorStop(1, "#060408");
+  if (isDark) {
+    rg.addColorStop(0, "#050308");
+    rg.addColorStop(0.4, "#080510");
+    rg.addColorStop(1, "#020105");
+  } else {
+    rg.addColorStop(0, "#0a0612");
+    rg.addColorStop(0.4, "#0d0818");
+    rg.addColorStop(1, "#04020a");
+  }
   ctx.fillStyle = rg;
   ctx.fillRect(0, roadTop, W, H - roadTop);
 
-  // Strong central light bloom from VP — THE key feature of the reference
-  const bloom = ctx.createRadialGradient(VP.x, VP.y, 0, VP.x, VP.y + (H - VP.y) * 0.5, W * 0.55);
-  bloom.addColorStop(0.0, "rgba(255,200,160,0.55)");
-  bloom.addColorStop(0.08, "rgba(255,140,180,0.35)");
-  bloom.addColorStop(0.22, "rgba(200,80,160,0.18)");
-  bloom.addColorStop(0.5, "rgba(120,40,120,0.07)");
+  // Bloom effect
+  const bloom = ctx.createRadialGradient(VP.x, VP.y * 0.8, 0, VP.x, VP.y + (H - VP.y) * 0.4, W * 0.6);
+  if (isDark) {
+    bloom.addColorStop(0.0, "rgba(80,120,180,0.08)");
+    bloom.addColorStop(0.15, "rgba(60,90,150,0.04)");
+    bloom.addColorStop(0.4, "rgba(50,70,120,0.02)");
+  } else {
+    bloom.addColorStop(0.0, "rgba(0,240,255,0.15)");
+    bloom.addColorStop(0.15, "rgba(216,99,255,0.1)");
+    bloom.addColorStop(0.4, "rgba(120,80,180,0.04)");
+  }
   bloom.addColorStop(1, "transparent");
   ctx.fillStyle = bloom;
   ctx.fillRect(0, roadTop, W, H - roadTop);
 
+  // Perspective grid on ground
+  ctx.save();
+  ctx.strokeStyle = isDark ? "rgba(80,120,160,0.06)" : "rgba(128,200,216,0.12)";
+  ctx.lineWidth = isDark ? 0.5 : 0.8;
+  
+  // Horizontal grid lines
+  for (let i = 0; i < 12; i++) {
+    const frac = i / 11;
+    const y = VP.y + (H - VP.y) * frac;
+    const xSpread = W * 0.4 * frac;
+    ctx.beginPath();
+    ctx.moveTo(VP.x - xSpread, y);
+    ctx.lineTo(VP.x + xSpread, y);
+    ctx.stroke();
+  }
+  
+  // Vertical grid lines
+  for (let i = 0; i < 8; i++) {
+    const frac = (i - 3.5) / 7;
+    ctx.beginPath();
+    ctx.moveTo(VP.x + frac * W * 0.4, VP.y);
+    ctx.lineTo(VP.x + frac * W * 0.9, H);
+    ctx.stroke();
+  }
+  ctx.restore();
+
   // Wet reflections
   const wr = mkRand(77);
-  for (let i = 0; i < 8; i++) {
-    const px = VP.x + (wr() - 0.5) * W * 0.7;
-    const py = roadTop + wr() * (H - roadTop) * 0.8;
-    const prx = 20 + wr() * 60, pry = prx * 0.2;
-    const hue = wr() > 0.5 ? 340 : 185;
+  for (let i = 0; i < 3; i++) {
+    const px = VP.x + (wr() - 0.5) * W * 0.6;
+    const py = roadTop + wr() * (H - roadTop) * 0.7;
+    const prx = 12 + wr() * 30, pry = prx * 0.15;
+    const isCyan = wr() > 0.6;
     const pG = ctx.createRadialGradient(px, py, 0, px, py, prx);
-    pG.addColorStop(0, `hsla(${hue},90%,70%,0.2)`);
+    if (isDark) {
+      const hue = isCyan ? 200 : 250;
+      pG.addColorStop(0, `hsla(${hue},60%,40%,0.06)`);
+    } else {
+      const hue = isCyan ? 180 : 295;
+      pG.addColorStop(0, `hsla(${hue},100%,50%,0.12)`);
+    }
     pG.addColorStop(1, "transparent");
     ctx.fillStyle = pG;
     ctx.beginPath(); ctx.ellipse(px, py, prx, pry, 0, 0, Math.PI * 2); ctx.fill();
   }
 }
 
-// ── Floating vehicles (like reference) ───────────────────────────────────────
-const VEHICLES = Array.from({ length: 18 }, (_, i) => {
-  const r = mkRand(i * 9999 + 7);
-  return {
-    seed: i,
-    laneX: 0.35 + r() * 0.3,   // 0-1 across width
-    laneY: 0.2 + r() * 0.55,   // 0-1 depth along road (perspective)
-    speed: 1 + r() * 1.2,    // relative forward speed
-    size: 0.4 + r() * 0.6,     // size multiplier
-    phase: r(),                  // phase offset
-    col: r() > 0.5 ? "#ff2060" : "#202030", // red or dark
-  };
-});
-
-function drawVehicles(ctx, t) {
-  // Sort back to front
-  const sorted = [...VEHICLES].sort((a, b) => a.laneY - b.laneY);
-
-  sorted.forEach(v => {
-    const prog = ((v.phase + t * v.speed * SPEED * 0.8) % 1);
-
-    // Perspective: smaller near VP, larger near bottom
-    const pct = Math.pow(prog, 1.4);
-    const screenX = VP.x + (v.laneX - 0.5) * W * 0.55 * pct;
-    const screenY = VP.y + (H - VP.y) * pct * 0.92;
-    const sz = 4 + pct * 28 * v.size;
-
-    if (sz < 2) return;
-
-    const alpha = pct < 0.1 ? pct / 0.1 : pct > 0.88 ? (1 - pct) / 0.12 : 1;
-
-    ctx.save();
-    ctx.globalAlpha = alpha;
-
-    // Vehicle body — chunky box like reference
-    const bw = sz * 2.2, bh = sz * 1.0;
-    ctx.fillStyle = v.col;
-    ctx.shadowColor = v.col === "#ff2060" ? "#ff0040" : "#303050";
-    ctx.shadowBlur = 8 * pct;
-    ctx.fillRect(screenX - bw / 2, screenY - bh, bw, bh);
-
-    // Underside glow (anti-grav)
-    const uG = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, bw * 0.7);
-    uG.addColorStop(0, `rgba(255,100,200,${0.4 * pct})`);
-    uG.addColorStop(1, "transparent");
-    ctx.fillStyle = uG;
-    ctx.beginPath();
-    ctx.ellipse(screenX, screenY, bw * 0.6, bh * 0.3, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Red nav lights
-    ctx.shadowColor = "#ff2020"; ctx.shadowBlur = 10;
-    ctx.fillStyle = `rgba(255,40,40,${0.8 + 0.2 * Math.sin(t * 3 + v.seed)})`;
-    ctx.beginPath(); ctx.arc(screenX - bw * 0.4, screenY - bh * 0.5, sz * 0.12, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(screenX + bw * 0.4, screenY - bh * 0.5, sz * 0.12, 0, Math.PI * 2); ctx.fill();
-
-    ctx.restore();
-  });
-}
-
-// ── Floating particles / data bits (the little square sparkles in reference) ─
+// ── Floating particles ─
 const PARTICLES = Array.from({ length: 120 }, (_, i) => {
   const r = mkRand(i * 1337);
   return {
@@ -479,12 +549,12 @@ const PARTICLES = Array.from({ length: 120 }, (_, i) => {
     speed: 0.15 + r() * 0.5,
     hue: r() > 0.6 ? 170 : (r() > 0.3 ? 340 : 60),
     phase: r(),
-    square: r() > 0.55, // square vs dot
+    square: r() > 0.55,
     drift: (r() - 0.5) * 0.4,
   };
 });
 
-function drawParticles(ctx, t) {
+function drawParticles(ctx, t, isDark) {
   PARTICLES.forEach(p => {
     const py = ((p.y + t * p.speed * 18) % (H * 1.1)) - H * 0.05;
     const px = p.x + Math.sin(t * 0.4 + p.phase * Math.PI * 2) * 15 * p.drift;
@@ -504,17 +574,16 @@ function drawParticles(ctx, t) {
   });
 }
 
-// ── Warp beams — kept from previous, tuned for this scene ────────────────────
-function drawWarpBeams(ctx, t) {
+// ── Warp beams ────────────────────────────────────────
+function drawWarpBeams(ctx, t, isDark) {
   const rand = mkRand(9981);
   const N = 38;
   for (let i = 0; i < N; i++) {
     const angle = rand() * Math.PI * 2;
     const spd = 1 + rand() * 1.0;
-    // Hues: mostly magenta/pink/teal to match sky
     const hue = rand() > 0.5
-      ? 300 + rand() * 60   // magenta-pink
-      : 160 + rand() * 40;  // teal
+      ? 300 + rand() * 60
+      : 160 + rand() * 40;
     const phase = rand();
     const len = 60 + rand() * 300;
     const thick = 0.3 + rand() * 2.2;
@@ -540,7 +609,6 @@ function drawWarpBeams(ctx, t) {
     ctx.restore();
   }
 
-  // Intense central bloom at VP
   const bloom = ctx.createRadialGradient(VP.x, VP.y, 0, VP.x, VP.y, 180);
   bloom.addColorStop(0, `rgba(255,220,200,${0.22 + 0.06 * Math.sin(t * 1.1)})`);
   bloom.addColorStop(0.2, `rgba(255,120,180,0.12)`);
@@ -551,13 +619,13 @@ function drawWarpBeams(ctx, t) {
 }
 
 // ── Post FX ───────────────────────────────────────────────────────────────────
-function drawPostFX(ctx, t) {
+function drawPostFX(ctx, t, isDark) {
   // Subtle scanlines
   for (let i = 0; i < H; i += 3) {
     ctx.fillStyle = "rgba(0,0,0,0.04)";
     ctx.fillRect(0, i, W, 1);
   }
-  // Vignette — slightly teal-tinted edges like reference
+  // Vignette
   const vg = ctx.createRadialGradient(W / 2, H / 2, H * 0.12, W / 2, H / 2, H * 0.8);
   vg.addColorStop(0, "transparent");
   vg.addColorStop(0.7, "rgba(0,20,30,0.3)");
@@ -566,18 +634,17 @@ function drawPostFX(ctx, t) {
   ctx.fillRect(0, 0, W, H);
 }
 
-// ── Main render ───────────────────────────────────────────────────────────────
-function draw(ctx, t) {
+function draw(ctx, t, isDark) {
   ctx.clearRect(0, 0, W, H);
-  drawSky(ctx, t);
-  drawCityLayers(ctx, t);
-  drawRoad(ctx, t);
-  drawWarpBeams(ctx, t);
-  drawParticles(ctx, t);
-  drawPostFX(ctx, t);
+  drawSky(ctx, t, isDark);
+  drawCityLayers(ctx, t, isDark);
+  drawRoad(ctx, t, isDark);
+  drawWarpBeams(ctx, t, isDark);
+  drawParticles(ctx, t, isDark);
+  drawPostFX(ctx, t, isDark);
 }
 
-export default function CyberpunkWarp() {
+export default function CyberpunkWarp({ isDark = false }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
   const t0Ref = useRef(null);
@@ -588,12 +655,12 @@ export default function CyberpunkWarp() {
     const ctx = canvas.getContext("2d");
     const loop = (ts) => {
       if (!t0Ref.current) t0Ref.current = ts;
-      draw(ctx, (ts - t0Ref.current) / 1000);
+      draw(ctx, (ts - t0Ref.current) / 1000, isDark);
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [isDark]);
 
   return (
     <div style={{
@@ -601,7 +668,7 @@ export default function CyberpunkWarp() {
       inset: 0,
       width: "100%",
       height: "100%",
-      background: "#060410",
+      background: isDark ? "#020408" : "#060410",
       overflow: "hidden",
     }}>
       <canvas

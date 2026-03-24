@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useAuth } from "../context/AuthContext";
-import { NeonButton } from "../components/NeonButton";
-import { containerVariants, itemVariants } from "../animations/transitions.config";
+import { useAuth } from "../../hooks";
+import { NeonButton } from "../../components/ui";
+import { containerVariants, itemVariants } from "../../animations/transitions.config";
+import "./AuthPages.css";
 import "./CharacterCreationPage.css";
 
 export function CharacterCreationPage() {

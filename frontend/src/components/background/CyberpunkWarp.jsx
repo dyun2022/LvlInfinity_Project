@@ -1,16 +1,9 @@
 import { useEffect, useRef } from "react";
+import { mkRand } from "../../utils/random.js";
 
 const W = 1200, H = 700;
 const VP = { x: W / 2, y: H * 0.48 }; // vanishing point center
 const SPEED = 0.70; // faster building rise
-
-function mkRand(seed) {
-  let s = (seed | 0) + 1;
-  return () => {
-    s ^= s << 13; s ^= s >> 17; s ^= s << 5;
-    return (s >>> 0) / 0xFFFFFFFF;
-  };
-}
 
 // ── Sky & atmosphere ──────────────────────────────────────────────────────────
 function drawSky(ctx, t, isDark) {
@@ -644,6 +637,15 @@ function draw(ctx, t, isDark) {
   drawPostFX(ctx, t, isDark);
 }
 
+/**
+ * CyberpunkWarp Component
+ * 
+ * Canvas-based procedural synthwave cityscape with scrolling buildings,
+ * warp beams, particles, and atmospheric effects.
+ * 
+ * Props:
+ *   - isDark: boolean - Use dark night-city palette vs bright landing page palette
+ */
 export default function CyberpunkWarp({ isDark = false }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);

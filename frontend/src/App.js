@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AuthProvider } from "./context/AuthContext";
-import CyberpunkWarp from "./components/CyberpunkWarp";
-import LandingPage from "./components/LandingPage";
-import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
-import { CharacterCreationPage } from "./pages/CharacterCreationPage";
-import { WorldPage } from "./pages/WorldPage";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { PageTransition } from "./components/PageTransition";
+import { CyberpunkWarp } from "./components/background";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import { LoginPage } from "./pages/AuthPages/LoginPage";
+import { RegisterPage } from "./pages/AuthPages/RegisterPage";
+import { CharacterCreationPage } from "./pages/AuthPages/CharacterCreationPage";
+import { WorldPage } from "./pages/WorldPage/WorldPage";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { PageTransition } from "./components/layout";
 import "./App.css";
 
 function AppContent() {

@@ -1,7 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { pageVariants, containerVariants } from "../animations/transitions.config";
+import { pageVariants, containerVariants } from "../../animations/transitions.config";
 
+/**
+ * PageTransition Component
+ * 
+ * Wraps page content with smooth entry/exit animations.
+ * Provides consistent page transition behavior across the app.
+ */
 export function PageTransition({ children }) {
   return (
     <motion.div
@@ -21,7 +27,12 @@ export function PageTransition({ children }) {
   );
 }
 
-// Animated container for staggering child elements
+/**
+ * AnimatedContainer Component
+ * 
+ * Container that staggeranimation through child elements.
+ * Used for animating lists or multiple elements together.
+ */
 export function AnimatedContainer({ children, variants = containerVariants }) {
   return (
     <motion.div
@@ -35,9 +46,14 @@ export function AnimatedContainer({ children, variants = containerVariants }) {
   );
 }
 
-// Animated item for children within a container
+/**
+ * AnimatedItem Component
+ * 
+ * Individual animated item within a container.
+ * Works in conjunction with AnimatedContainer for staggered effects.
+ */
 export function AnimatedItem({ children, variants: customVariants }) {
-  const { itemVariants } = require("../animations/transitions.config");
+  const { itemVariants } = require("../../animations/transitions.config");
   const variants = customVariants || itemVariants;
 
   return (

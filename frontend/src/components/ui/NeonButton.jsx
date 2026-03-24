@@ -1,6 +1,21 @@
 import React from "react";
 import "./NeonButton.css";
 
+/**
+ * NeonButton Component
+ * 
+ * Reusable UI button component with synthwave neon styling.
+ * Supports variants, icons, and disabled states.
+ * 
+ * Props:
+ *   - children: Button text/content
+ *   - onClick: Click handler
+ *   - variant: 'primary' or 'secondary' styling
+ *   - icon: Optional icon element/string
+ *   - disabled: Disabled state
+ *   - className: Additional CSS classes
+ *   - ...rest: Other HTML button attributes
+ */
 export function NeonButton({
   children,
   onClick,
@@ -26,3 +41,5 @@ export function NeonButton({
     </button>
   );
 }
+
+export default NeonButton;

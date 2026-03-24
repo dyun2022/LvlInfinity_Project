@@ -1,7 +1,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth.js";
 
+/**
+ * ProtectedRoute Component
+ * 
+ * Wraps routes that require authentication.
+ * Redirects to home if user is not logged in.
+ * Shows loading state while session is being verified.
+ */
 export function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
 

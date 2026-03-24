@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useAuth } from "../context/AuthContext";
-import { portalVariants } from "../animations/transitions.config";
+import { useAuth } from "../../hooks";
+import { portalVariants } from "../../animations/transitions.config";
 import "./LandingPage.css";
 
+/**
+ * LandingPage Component
+ * 
+ * Main entry point with holographic UI, character options,
+ * and authentication navigation.
+ */
 export default function LandingPage() {
   const [phase, setPhase] = useState("off");
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -70,7 +76,7 @@ export default function LandingPage() {
             <span className="title-text">nity</span>
           </h1>
 
-          {/* Subtitle tagline */}
+          {/* Subtitle tagline (hidden) */}
           <p className="tagline" aria-hidden="true"></p>
 
           {/* Holographic divider */}

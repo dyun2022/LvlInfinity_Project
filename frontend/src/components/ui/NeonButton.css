@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.neon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(0.5rem, 1vw, 0.65rem);
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  outline: none;
+  background: linear-gradient(135deg, rgba(0,240,255,0.08) 0%, rgba(216,99,255,0.06) 50%, rgba(100,200,255,0.08) 100%);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(0,240,255,0.15);
+  letter-spacing: 2px;
+}
+
+.neon-btn--primary {
+  color: #00f0ff;
+  border-color: rgba(0,240,255,0.4);
+  text-shadow: 0 0 8px rgba(0,240,255,0.7);
+}
+
+.neon-btn--primary:hover:not(:disabled) {
+  color: #00f0ff;
+  border-color: rgba(0,240,255,0.8);
+  box-shadow: 0 0 24px rgba(0,240,255,0.5), inset 0 0 12px rgba(0,240,255,0.2);
+  transform: scale(1.05);
+  text-shadow: 0 0 16px rgba(0,240,255,0.9);
+}
+
+.neon-btn--primary:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 0 12px rgba(0,240,255,0.3), inset 0 0 8px rgba(0,240,255,0.15);
+}
+
+.neon-btn--secondary {
+  color: #d863ff;
+  border-color: rgba(216,99,255,0.4);
+  text-shadow: 0 0 8px rgba(216,99,255,0.7);
+}
+
+.neon-btn--secondary:hover:not(:disabled) {
+  color: #d863ff;
+  border-color: rgba(216,99,255,0.8);
+  box-shadow: 0 0 24px rgba(216,99,255,0.5), inset 0 0 12px rgba(216,99,255,0.2);
+  transform: scale(1.05);
+  text-shadow: 0 0 16px rgba(216,99,255,0.9);
+}
+
+.neon-btn--secondary:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: 0 0 12px rgba(216,99,255,0.3), inset 0 0 8px rgba(216,99,255,0.15);
+}
+
+.neon-btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.neon-btn__icon {
+  display: inline-block;
+  font-size: 1.2em;
+}
+
+.neon-btn__label {
+  display: inline-block;
+}
+
+/* Corner brackets */
+.neon-btn__corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid currentColor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.neon-btn__corner--tl {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.neon-btn__corner--tr {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.neon-btn__corner--bl {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.neon-btn__corner--br {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.neon-btn--primary:hover .neon-btn__corner,
+.neon-btn--secondary:hover .neon-btn__corner {
+  opacity: 1;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .neon-btn {
+    padding: 12px 24px;
+    font-size: 0.5rem;
+  }
+}

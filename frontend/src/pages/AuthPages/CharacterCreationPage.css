@@ -1,0 +1,314 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap");
+
+/* Extend auth-page styling but make it work with avatar layout */
+.avatar-container {
+  max-width: 900px !important;
+  padding: 40px !important;
+}
+
+.avatar-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+/* Preview Section */
+.avatar-preview-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preview-card {
+  padding: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 240, 255, 0.05) 0%,
+    rgba(216, 99, 255, 0.03) 50%,
+    rgba(0, 255, 198, 0.05) 100%
+  );
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 40px rgba(0, 240, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.preview-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: #00f0ff;
+  text-transform: uppercase;
+  margin: 0 0 16px 0;
+  text-shadow: 0 0 10px #00f0ff;
+}
+
+.avatar-preview {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 16px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.avatar-body,
+.avatar-hair,
+.avatar-outfit {
+  display: inline-block;
+}
+
+.avatar-hair {
+  font-size: 1.8rem;
+  margin-top: -12px;
+}
+
+.avatar-outfit {
+  font-size: 2rem;
+  margin-top: -8px;
+}
+
+.preview-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.75rem;
+}
+
+.stat-line {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(0, 240, 255, 0.8);
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+  padding-bottom: 4px;
+}
+
+.stat-value {
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.stat-color {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  vertical-align: middle;
+}
+
+/* Form Section */
+.avatar-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #00f0ff;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px #00f0ff;
+}
+
+.form-input {
+  padding: 12px 16px;
+  background: rgba(0, 10, 30, 0.8);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 4px;
+  color: #00f0ff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.05);
+}
+
+.form-input:focus {
+  border-color: #00f0ff;
+  box-shadow:
+    inset 0 0 10px rgba(0, 240, 255, 0.1),
+    0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.form-input::placeholder {
+  color: rgba(0, 240, 255, 0.4);
+}
+
+/* Option Grids */
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.option-button {
+  padding: 12px;
+  background: rgba(0, 10, 30, 0.6);
+  border: 2px solid rgba(0, 240, 255, 0.2);
+  border-radius: 4px;
+  color: #00f0ff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.option-button:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+  box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1), 0 0 15px rgba(0, 240, 255, 0.2);
+}
+
+.option-button:hover::before {
+  transform: translateX(100%);
+}
+
+.option-button.selected {
+  border-color: #00f0ff;
+  background: rgba(0, 240, 255, 0.15);
+  box-shadow:
+    inset 0 0 15px rgba(0, 240, 255, 0.2),
+    0 0 25px rgba(0, 240, 255, 0.4),
+    0 0 50px rgba(0, 240, 255, 0.2);
+  text-shadow: 0 0 10px #00f0ff;
+}
+
+.option-emoji {
+  font-size: 1.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.option-label {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+/* Color-specific grid */
+.color-option {
+  grid-template-columns: 1fr;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Error message */
+.form-error {
+  padding: 12px 16px;
+  background: rgba(255, 0, 106, 0.1);
+  border: 1px solid rgba(255, 0, 106, 0.4);
+  border-radius: 4px;
+  color: #ff006e;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.85rem;
+  text-shadow: 0 0 10px rgba(255, 0, 106, 0.3);
+}
+
+/* Footer info */
+.char-info {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(0, 240, 255, 0.6);
+  letter-spacing: 1px;
+  text-align: center;
+  margin: 0;
+}
+
+/* Responsive: Stack vertically on smaller screens */
+@media (max-width: 900px) {
+  .avatar-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .avatar-container {
+    max-width: 100% !important;
+    padding: 32px 20px !important;
+  }
+
+  .option-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .avatar-display {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .avatar-container {
+    padding: 24px 16px !important;
+  }
+
+  .avatar-display {
+    font-size: 2rem;
+  }
+
+  .option-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .option-emoji {
+    font-size: 1.5rem;
+  }
+
+  .option-label {
+    font-size: 0.65rem;
+  }
+}
